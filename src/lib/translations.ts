@@ -48,6 +48,7 @@ export const translationsData = {
     auth_required_description:
       "You need to be signed in to report an issue. Please sign in or create an account to continue.",
     sign_in: "Sign In",
+    sign_out: "Sign Out",
     sign_up: "Sign Up",
     cancel: "Cancel",
     support_chat_title: "AI Support Assistant",
@@ -97,6 +98,7 @@ export const translationsData = {
     auth_required_description:
       "मुद्दा रिपोर्ट करने के लिए आपको साइन इन होना चाहिए। कृपया जारी रखने के लिए साइन इन करें या खाता बनाएं।",
     sign_in: "साइन इन करें",
+    sign_out: "साइन आउट करें",
     sign_up: "साइन अप करें",
     cancel: "रद्द करें",
     support_chat_title: "एआई सहायता सहायक",

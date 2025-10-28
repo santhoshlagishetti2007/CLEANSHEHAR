@@ -23,8 +23,9 @@ export function AuthModal({ open, onOpenChange }: AuthModalProps) {
   const { t } = useLanguage();
 
   const handleSignIn = () => {
-    signIn();
-    onOpenChange(false);
+    signIn().then(() => {
+        onOpenChange(false);
+    });
   };
 
   return (

@@ -15,7 +15,6 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   Form,
@@ -53,7 +52,7 @@ export function ReportIssueDialog({
 }: ReportIssueDialogProps) {
   const { t } = useLanguage();
   const { toast } = useToast();
-  const { isAuthenticated } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const [isAuthModalOpen, setAuthModalOpen] = useState(false);
   const [mediaPreview, setMediaPreview] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -118,7 +117,7 @@ export function ReportIssueDialog({
   };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    if (!isAuthenticated) {
+    if (!isAuthenticated || !user) {
       setAuthModalOpen(true);
       return;
     }
@@ -131,7 +130,7 @@ export function ReportIssueDialog({
       imageHint: "newly reported issue",
       department: values.department,
       status: "Reported",
-      author: { id: "user-current", name: "You", avatar: "" },
+      author: { id: user.uid, name: user.displayName || 'Anonymous', avatar: user.photoURL || '' },
       timestamp: new Date().toISOString(),
       location: {
         address: "Near your current location",

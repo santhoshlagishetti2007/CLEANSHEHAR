@@ -4,12 +4,6 @@ import { useState } from 'react';
 import Image from 'next/image';
 import {
   ArrowLeft,
-  Calendar,
-  MapPin,
-  MessageSquare,
-  Tag,
-  ThumbsUp,
-  User,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -44,7 +38,7 @@ function IssueStatusBadge({ status, t }: { status: Issue['status'], t: (key: any
 
 export default function IssueDetailPage({ params }: { params: { id: string } }) {
   const { t } = useLanguage();
-  const { isAuthenticated } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const [isAuthModalOpen, setAuthModalOpen] = useState(false);
   
   const issue = issues.find(i => i.id === params.id);
@@ -60,11 +54,11 @@ export default function IssueDetailPage({ params }: { params: { id: string } }) 
         setAuthModalOpen(true);
         return;
     }
-    if (newComment.trim()) {
+    if (newComment.trim() && user) {
       const comment: Comment = {
         id: `comment-${Date.now()}`,
         text: newComment,
-        author: { id: 'user-current', name: 'You', avatar: '' },
+        author: { id: user.uid, name: user.displayName || 'Anonymous', avatar: user.photoURL || '' },
         timestamp: new Date().toISOString(),
       };
       setComments(prev => [...prev, comment]);

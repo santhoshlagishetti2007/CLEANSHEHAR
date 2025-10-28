@@ -4,6 +4,7 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
 import { AppProviders } from '@/contexts/app-providers';
+import { FirebaseClientProvider } from '@/firebase/client-provider';
 
 const fontPoppins = Poppins({
   subsets: ['latin'],
@@ -41,10 +42,12 @@ export default function RootLayout({
           fontPTSans.variable
         )}
       >
-        <AppProviders>
-          {children}
-          <Toaster />
-        </AppProviders>
+        <FirebaseClientProvider>
+          <AppProviders>
+            {children}
+            <Toaster />
+          </AppProviders>
+        </FirebaseClientProvider>
       </body>
     </html>
   );
