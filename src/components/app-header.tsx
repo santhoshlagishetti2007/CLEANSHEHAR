@@ -62,12 +62,6 @@ export function AppHeader() {
                 {t('community_forum_title')}
               </Button>
             </Link>
-          <Link href="/support" passHref>
-            <Button variant="ghost" size="sm">
-              <LifeBuoy className="mr-2 h-4 w-4" />
-              {t("support")}
-            </Button>
-          </Link>
         </nav>
         <div className="flex items-center gap-2">
           <LanguageSelector />
