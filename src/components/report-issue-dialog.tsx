@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Loader2, Sparkles, Upload, ArrowLeft } from "lucide-react";
+import { Loader2, Sparkles, Upload, ArrowLeft, Camera, FileUp } from "lucide-react";
 import Image from "next/image";
 
 import { useAuth } from "@/contexts/auth-context";
@@ -40,6 +40,7 @@ import { aiCategorizeIssue } from "@/ai/flows/ai-categorize-issue";
 import { Progress } from "./ui/progress";
 import { CameraView } from "./camera-view";
 import { LocationPicker } from "./location-picker";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 
 
 interface ReportIssueDialogProps {
@@ -73,7 +74,7 @@ export function ReportIssueDialog({
   const { user, isAuthenticated, openAuthModal } = useAuth();
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
-  const [mediaSource, setMediaSource] = useState<"upload" | "camera" | null>(null);
+  const [activeTab, setActiveTab] = useState("upload");
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -90,7 +91,6 @@ export function ReportIssueDialog({
     if (!open) {
       form.reset();
       setCurrentStep(1);
-      setMediaSource(null);
       setIsAnalyzing(false);
     }
   }, [open, form]);
@@ -161,9 +161,7 @@ export function ReportIssueDialog({
   }
 
   const goBack = () => {
-    if (currentStep === 1 && mediaSource) {
-      setMediaSource(null);
-    } else if (currentStep > 1) {
+    if (currentStep > 1) {
       setCurrentStep(prev => prev - 1);
     }
   };
@@ -177,7 +175,7 @@ export function ReportIssueDialog({
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-3xl">
         <DialogHeader>
           <div className="flex items-center gap-4">
-             {currentStep > 1 || mediaSource ? (
+             {currentStep > 1 ? (
               <Button variant="ghost" size="icon" onClick={goBack}>
                 <ArrowLeft />
               </Button>
@@ -195,22 +193,19 @@ export function ReportIssueDialog({
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             
             {/* Step 1: Media Source Selection */}
-            {currentStep === 1 && !mediaSource && (
-              <div className="text-center py-8">
-                <h3 className="text-lg font-medium mb-4">How would you like to provide media?</h3>
-                <div className="flex justify-center gap-4">
-                  <Button type="button" onClick={() => setMediaSource('upload')}>Upload File</Button>
-                  <Button type="button" onClick={() => setMediaSource('camera')}>Use Camera</Button>
-                </div>
-              </div>
-            )}
-            
-            {/* Step 1.1: File Upload or Camera View */}
-            {currentStep === 1 && mediaSource === 'upload' && (
-              <FileUpload onMediaProvided={handleMediaProvided} />
-            )}
-            {currentStep === 1 && mediaSource === 'camera' && (
-               <CameraView onPhotoTaken={handleMediaProvided} isVisible={currentStep === 1 && mediaSource === 'camera'} />
+            {currentStep === 1 && (
+              <Tabs defaultValue="upload" className="w-full" onValueChange={setActiveTab}>
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="upload"><FileUp className="mr-2 h-4 w-4"/> Upload File</TabsTrigger>
+                  <TabsTrigger value="camera"><Camera className="mr-2 h-4 w-4"/> Use Camera</TabsTrigger>
+                </TabsList>
+                <TabsContent value="upload" className="pt-4">
+                  <FileUpload onMediaProvided={handleMediaProvided} />
+                </TabsContent>
+                <TabsContent value="camera" className="pt-4">
+                  <CameraView onPhotoTaken={handleMediaProvided} isVisible={activeTab === 'camera'} />
+                </TabsContent>
+              </Tabs>
             )}
 
 
@@ -370,3 +365,5 @@ function FileUpload({ onMediaProvided }: { onMediaProvided: (dataUri: string) =>
     </div>
   );
 }
+
+    
