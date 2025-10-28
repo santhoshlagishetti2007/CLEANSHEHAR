@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
 import { AppProviders } from '@/contexts/app-providers';
 import { FirebaseClientProvider } from '@/firebase/client-provider';
+import { FloatingSupportButton } from '@/components/floating-support-button';
 
 const fontPoppins = Poppins({
   subsets: ['latin'],
@@ -45,6 +46,7 @@ export default function RootLayout({
         <FirebaseClientProvider>
           <AppProviders>
             {children}
+            <FloatingSupportButton />
             <Toaster />
           </AppProviders>
         </FirebaseClientProvider>
