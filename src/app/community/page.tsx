@@ -67,24 +67,24 @@ export default function CommunityPage() {
       <main className="flex-1 bg-background px-4 py-8 md:px-6 lg:px-8">
         <div className="container mx-auto max-w-3xl">
           <div className="mb-8 text-center">
-            <h1 className="font-headline text-4xl font-bold">Community Forum</h1>
+            <h1 className="font-headline text-4xl font-bold">{t('community_forum_title')}</h1>
             <p className="mt-2 text-muted-foreground">
-              <TranslatedText text="Discuss local issues, share ideas, and connect with your neighbors." />
+              {t('community_forum_subtitle')}
             </p>
           </div>
 
           <Card className="mb-8">
             <CardHeader>
-              <h2 className="text-xl font-semibold font-headline">Create a New Post</h2>
+              <h2 className="text-xl font-semibold font-headline">{t('create_new_post')}</h2>
             </CardHeader>
             <CardContent>
               <div className="grid w-full gap-2">
                 <Textarea
-                  placeholder="What's on your mind?"
+                  placeholder={t('whats_on_your_mind')}
                   value={newPostContent}
                   onChange={(e) => setNewPostContent(e.target.value)}
                 />
-                <Button onClick={handleCreatePost}>Post to Forum</Button>
+                <Button onClick={handleCreatePost}>{t('post_to_forum')}</Button>
               </div>
             </CardContent>
           </Card>
@@ -112,7 +112,7 @@ export default function CommunityPage() {
                   </p>
                 </CardContent>
                 <CardFooter className="flex-col items-start gap-4">
-                  <h3 className="text-sm font-semibold">Comments</h3>
+                  <h3 className="text-sm font-semibold">{t('comments')}</h3>
                    {post.comments.map(comment => (
                      <div key={comment.id} className="flex items-start gap-3 text-sm">
                         <Avatar className="h-8 w-8">
@@ -134,8 +134,8 @@ export default function CommunityPage() {
                             {user?.displayName?.charAt(0) || '?'}
                         </AvatarFallback>
                      </Avatar>
-                     <Textarea placeholder="Write a comment..." className="min-h-[40px] flex-1 text-sm" />
-                     <Button size="sm">Reply</Button>
+                     <Textarea placeholder={t('write_a_comment')} className="min-h-[40px] flex-1 text-sm" />
+                     <Button size="sm">{t('reply')}</Button>
                    </div>
                 </CardFooter>
               </Card>

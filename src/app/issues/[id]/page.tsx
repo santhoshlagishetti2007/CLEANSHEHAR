@@ -77,7 +77,7 @@ export default function IssueDetailPage({ params }: { params: { id: string } }) 
             <Link href="/issues" passHref>
               <Button variant="ghost">
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to all issues
+                {t('back_to_all_issues')}
               </Button>
             </Link>
           </div>

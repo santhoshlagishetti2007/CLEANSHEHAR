@@ -61,7 +61,7 @@ export function AppHeader() {
              <Link href="/community" passHref>
                <Button variant="ghost" size="sm">
                 <Users className="mr-2 h-4 w-4" />
-                Community
+                {t('community_forum_title')}
               </Button>
             </Link>
           <Link href="/support" passHref>
@@ -98,7 +98,7 @@ export function AppHeader() {
                 <Link href="/profile" passHref>
                   <DropdownMenuItem>
                     <UserCircle className="mr-2 h-4 w-4" />
-                    <span>Profile</span>
+                    <span>{t('profile')}</span>
                   </DropdownMenuItem>
                 </Link>
                 <DropdownMenuItem onClick={() => signOut()}>

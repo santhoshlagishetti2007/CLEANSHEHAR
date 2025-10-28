@@ -65,6 +65,15 @@ export const translationsData = {
     resolved: "Resolved",
     in_progress: "In Progress",
     reported: "Reported",
+    community_forum_title: "Community Forum",
+    community_forum_subtitle: "Discuss local issues, share ideas, and connect with your neighbors.",
+    create_new_post: "Create a New Post",
+    post_to_forum: "Post to Forum",
+    whats_on_your_mind: "What's on your mind?",
+    write_a_comment: "Write a comment...",
+    reply: "Reply",
+    back_to_all_issues: "Back to all issues",
+    profile: "Profile",
   },
   hi: {
     app_name: "Clearशहर",
@@ -114,13 +123,22 @@ export const translationsData = {
     resolved: "हल किया गया",
     in_progress: "कार्य प्रगति पर है",
     reported: "रिपोर्ट किया गया",
+    community_forum_title: "सामुदायिक मंच",
+    community_forum_subtitle: "स्थानीय मुद्दों पर चर्चा करें, विचार साझा करें, और अपने पड़ोसियों से जुड़ें।",
+    create_new_post: "एक नई पोस्ट बनाएं",
+    post_to_forum: "फोरम पर पोस्ट करें",
+    whats_on_your_mind: "आपके मन में क्या है?",
+    write_a_comment: "एक टिप्पणी लिखें...",
+    reply: "जवाब दें",
+    back_to_all_issues: "सभी मुद्दों पर वापस जाएं",
+    profile: "प्रोफ़ाइल",
   },
 };
 
 // Simple proxy to fill other languages with english translation for demo
 for (const lang of Object.keys(languages)) {
     if (lang !== 'en' && lang !== 'hi') {
-        translationsData[lang as Language] = translationsData.hi;
+        translationsData[lang as Language] = { ...translationsData.en, ...translationsData.hi }; // Fallback to hi, then en
     }
 }
 
