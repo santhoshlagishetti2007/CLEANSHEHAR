@@ -1,3 +1,4 @@
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -41,6 +42,7 @@ import { CameraView } from "./camera-view";
 import { LocationPicker } from "./location-picker";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { SteppedProgress } from "./ui/stepped-progress";
+import { TranslatedText } from "./translated-text";
 
 
 interface ReportIssueDialogProps {
@@ -63,7 +65,6 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-const steps = ["Media", "Department", "Location", "Details", "Review"];
 
 export function ReportIssueDialog({
   open,
@@ -77,6 +78,8 @@ export function ReportIssueDialog({
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [activeTab, setActiveTab] = useState("upload");
+
+  const steps = [t('step_media'), t('step_department'), t('step_location'), t('step_details'), t('step_review')];
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -105,7 +108,7 @@ export function ReportIssueDialog({
 
     toast({
       title: t('analyzing_media'),
-      description: "Please wait a moment.",
+      description: t('ai_suggestion'),
     });
 
     try {
@@ -116,15 +119,15 @@ export function ReportIssueDialog({
       });
       form.setValue("department", suggestedDepartment);
       toast({
-        title: "AI Suggestion Complete",
-        description: `We've suggested the ${suggestedDepartment}.`,
+        title: t('ai_suggestion_complete'),
+        description: t('ai_suggestion_desc').replace('{department}', suggestedDepartment),
       });
     } catch (error) {
       console.error("AI categorization failed:", error);
       toast({
         variant: "destructive",
-        title: "AI Analysis Failed",
-        description: "Could not analyze the media. Please select a department manually.",
+        title: t('ai_suggestion_failed'),
+        description: t('ai_suggestion_failed_desc'),
       });
     } finally {
       setIsAnalyzing(false);
@@ -157,8 +160,8 @@ export function ReportIssueDialog({
 
     onIssueReported(newIssue);
     toast({
-      title: "Issue Reported!",
-      description: "Thank you for helping improve your community.",
+      title: t('issue_reported_toast_title'),
+      description: t('issue_reported_toast_desc'),
     });
     onOpenChange(false);
   }
@@ -200,8 +203,8 @@ export function ReportIssueDialog({
             {currentStep === 1 && (
               <Tabs value={activeTab} className="w-full" onValueChange={setActiveTab}>
                 <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="upload"><FileUp className="mr-2 h-4 w-4"/> Upload File</TabsTrigger>
-                  <TabsTrigger value="camera"><Camera className="mr-2 h-4 w-4"/> Use Camera</TabsTrigger>
+                  <TabsTrigger value="upload"><FileUp className="mr-2 h-4 w-4"/> {t('upload_file')}</TabsTrigger>
+                  <TabsTrigger value="camera"><Camera className="mr-2 h-4 w-4"/> {t('use_camera')}</TabsTrigger>
                 </TabsList>
                 <TabsContent value="upload" className="pt-4">
                   <FileUpload onMediaProvided={handleMediaProvided} />
@@ -232,12 +235,12 @@ export function ReportIssueDialog({
                       <Select onValueChange={field.onChange} value={field.value} disabled={isAnalyzing}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder={isAnalyzing ? "Analyzing..." : t('department_placeholder')} />
+                            <SelectValue placeholder={isAnalyzing ? t('analyzing') : t('department_placeholder')} />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
                           {departments.map(dept => (
-                            <SelectItem key={dept} value={dept}>{dept}</SelectItem>
+                            <SelectItem key={dept} value={dept}><TranslatedText text={dept} /></SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
@@ -303,15 +306,15 @@ export function ReportIssueDialog({
                 </div>
                 <h3 className="font-bold text-lg">{form.getValues('title')}</h3>
                 <p className="text-sm text-muted-foreground">{form.getValues('description')}</p>
-                <p className="text-sm"><strong>Department:</strong> {form.getValues('department')}</p>
-                <p className="text-sm"><strong>Location:</strong> Lat: {form.getValues('latitude').toFixed(4)}, Lng: {form.getValues('longitude').toFixed(4)}</p>
+                <p className="text-sm"><strong>{t('department')}:</strong> {form.getValues('department')}</p>
+                <p className="text-sm"><strong>{t('review_location_prefix')}:</strong> Lat: {form.getValues('latitude').toFixed(4)}, Lng: {form.getValues('longitude').toFixed(4)}</p>
               </div>
             )}
 
             <DialogFooter>
                 {currentStep > 1 && currentStep < 5 && (
                     <Button type="button" onClick={() => setCurrentStep(prev => prev + 1)} className="w-full" size="lg" disabled={isAnalyzing}>
-                      Next
+                      {t('next')}
                     </Button>
                 )}
                 {currentStep === 5 && (
@@ -357,13 +360,13 @@ function FileUpload({ onMediaProvided }: { onMediaProvided: (dataUri: string) =>
       {isProcessing ? (
          <div className="flex flex-col items-center gap-2 text-center text-muted-foreground">
             <Loader2 className="h-10 w-10 animate-spin" />
-            <span className="font-medium">Processing...</span>
+            <span className="font-medium">{t('processing')}</span>
           </div>
       ) : (
         <div className="flex flex-col items-center gap-2 text-center text-muted-foreground">
           <Upload className="h-10 w-10" />
           <span className="font-medium">{t('upload_media_button')}</span>
-          <span className="text-xs">PNG, JPG up to 10MB</span>
+          <span className="text-xs">{t('upload_media_desc')}</span>
         </div>
       )}
     </div>

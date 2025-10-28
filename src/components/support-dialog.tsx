@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Bot, Contact, HelpCircle, MessageSquare, Send, Loader2 } from 'lucide-react';
+import { Bot, Contact, HelpCircle } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -13,8 +13,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SupportChat } from './support-chat';
 import { officials } from '@/lib/data';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { Avatar, AvatarFallback } from './ui/avatar';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
+import { useLanguage } from '@/hooks/use-language';
+import { TranslatedText } from './translated-text';
 
 interface SupportDialogProps {
   open: boolean;
@@ -41,37 +43,38 @@ const faqs = [
   ];
 
 export function SupportDialog({ open, onOpenChange }: SupportDialogProps) {
+  const { t } = useLanguage();
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="font-headline">Support Center</DialogTitle>
+          <DialogTitle className="font-headline">{t('support_center_title')}</DialogTitle>
           <DialogDescription>
-            Get help or contact officials.
+            {t('support_center_desc')}
           </DialogDescription>
         </DialogHeader>
         <Tabs defaultValue="ai-assistant" className="w-full">
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="faq">
               <HelpCircle className="mr-2 h-4 w-4" />
-              FAQ
+              {t('faq_tab')}
             </TabsTrigger>
             <TabsTrigger value="ai-assistant">
               <Bot className="mr-2 h-4 w-4" />
-              AI Assistant
+              {t('ai_assistant_tab')}
             </TabsTrigger>
             <TabsTrigger value="contact">
               <Contact className="mr-2 h-4 w-4" />
-              Contact
+              {t('contact_tab')}
             </TabsTrigger>
           </TabsList>
           <TabsContent value="faq" className="mt-4">
              <Accordion type="single" collapsible className="w-full">
                 {faqs.map((faq, index) => (
                     <AccordionItem key={index} value={`item-${index}`}>
-                        <AccordionTrigger>{faq.question}</AccordionTrigger>
+                        <AccordionTrigger><TranslatedText text={faq.question} /></AccordionTrigger>
                         <AccordionContent>
-                        {faq.answer}
+                        <TranslatedText text={faq.answer} />
                         </AccordionContent>
                     </AccordionItem>
                 ))}
@@ -83,17 +86,17 @@ export function SupportDialog({ open, onOpenChange }: SupportDialogProps) {
           <TabsContent value="contact" className="mt-4">
              <Card>
                 <CardHeader>
-                    <CardTitle className="text-lg font-headline">Department Contacts</CardTitle>
+                    <CardTitle className="text-lg font-headline">{t('department_contacts')}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     {officials.map(official => (
                         <div key={official.id} className="flex items-center gap-4">
                              <Avatar>
-                                <AvatarFallback>{official.name.charAt(0)}</AvatarFallback>
+                                <AvatarFallback><TranslatedText text={official.name.charAt(0)} /></AvatarFallback>
                             </Avatar>
                             <div>
-                                <p className="font-semibold">{official.name}</p>
-                                <p className="text-sm text-muted-foreground">{official.department}</p>
+                                <p className="font-semibold"><TranslatedText text={official.name} /></p>
+                                <p className="text-sm text-muted-foreground"><TranslatedText text={official.department} /></p>
                                 <p className="text-sm text-primary">{official.contactInformation}</p>
                             </div>
                         </div>

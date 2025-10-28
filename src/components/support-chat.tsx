@@ -36,7 +36,7 @@ export function SupportChat() {
       setMessages((prev) => [...prev, aiMessage]);
     } catch (error) {
       const errorMessage: Message = {
-        text: 'Sorry, I encountered an error. Please try again.',
+        text: t('support_error'),
         isUser: false,
       };
       setMessages((prev) => [...prev, errorMessage]);
@@ -83,7 +83,7 @@ export function SupportChat() {
               </Avatar>
               <div className="flex items-center space-x-2 rounded-lg bg-muted p-3 text-sm">
                 <Loader2 className="h-4 w-4 animate-spin" />
-                <span>Thinking...</span>
+                <span>{t('thinking')}</span>
               </div>
             </div>
           )}

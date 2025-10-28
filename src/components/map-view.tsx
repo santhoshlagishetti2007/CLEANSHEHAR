@@ -13,7 +13,7 @@ import type { Issue } from "@/lib/types";
 import { useLanguage } from "@/hooks/use-language";
 import Link from 'next/link';
 import { Button } from "./ui/button";
-import { Card } from "./ui/card";
+import { TranslatedText } from "./translated-text";
 
 const statusColors = {
   Reported: {
@@ -41,7 +41,7 @@ export function MapView({ issues }: { issues: Issue[] }) {
     return (
       <div className="flex h-[calc(100vh_-_4rem)] items-center justify-center rounded-lg border bg-muted">
         <p className="text-muted-foreground">
-          Google Maps API Key is not configured.
+          {t('maps_api_key_not_configured')}
         </p>
       </div>
     );
@@ -84,10 +84,10 @@ export function MapView({ issues }: { issues: Issue[] }) {
                 pixelOffset={[0, -30]}
             >
                 <div className="p-2 w-48">
-                    <h3 className="font-bold font-headline">{selectedIssue.title}</h3>
-                    <p className="text-sm text-muted-foreground">{selectedIssue.department}</p>
+                    <h3 className="font-bold font-headline"><TranslatedText text={selectedIssue.title} /></h3>
+                    <p className="text-sm text-muted-foreground"><TranslatedText text={selectedIssue.department} /></p>
                     <Link href={`/issues/${selectedIssue.id}`} passHref>
-                        <Button variant="link" className="p-0 h-auto mt-2">View Details</Button>
+                        <Button variant="link" className="p-0 h-auto mt-2">{t('view_details')}</Button>
                     </Link>
                 </div>
              </InfoWindow>

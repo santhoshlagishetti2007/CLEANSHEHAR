@@ -88,11 +88,11 @@ export default function CommunityPage() {
                 <TabsList className="grid w-full grid-cols-2 md:w-[400px]">
                   <TabsTrigger value="issues">
                     <FileText className="mr-2 h-4 w-4" />
-                    Civic Issues
+                    {t('civic_issues')}
                   </TabsTrigger>
                   <TabsTrigger value="discussions">
                     <MessageSquare className="mr-2 h-4 w-4" />
-                    General Discussions
+                    {t('general_discussions')}
                   </TabsTrigger>
                 </TabsList>
             </div>
@@ -132,7 +132,7 @@ export default function CommunityPage() {
                           <AvatarFallback>{post.author.name.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <div>
-                          <p className="font-semibold">{post.author.name}</p>
+                          <p className="font-semibold"><TranslatedText text={post.author.name} /></p>
                           <p className="text-xs text-muted-foreground">
                             {new Date(post.timestamp).toLocaleString()}
                           </p>
@@ -153,7 +153,7 @@ export default function CommunityPage() {
                                 <AvatarFallback>{comment.author.name.charAt(0)}</AvatarFallback>
                             </Avatar>
                             <div>
-                                <span className="font-semibold">{comment.author.name}</span>
+                                <span className="font-semibold"><TranslatedText text={comment.author.name} /></span>
                                 <p className="text-muted-foreground">
                                     <TranslatedText text={comment.text} />
                                 </p>

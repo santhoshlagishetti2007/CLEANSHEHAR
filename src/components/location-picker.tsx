@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -10,6 +11,7 @@ import {
 import { Button } from './ui/button';
 import { Loader2, LocateFixed } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useLanguage } from '@/hooks/use-language';
 
 interface LocationPickerProps {
   onLocationSet: (lat: number, lng: number) => void;
@@ -18,6 +20,7 @@ interface LocationPickerProps {
 function InnerLocationPicker({ onLocationSet }: LocationPickerProps) {
   const map = useMap();
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [markerPos, setMarkerPos] = useState({ lat: 28.6139, lng: 77.209 }); // Default to Delhi
   const [isLocating, setIsLocating] = useState(false);
 
@@ -44,14 +47,14 @@ function InnerLocationPicker({ onLocationSet }: LocationPickerProps) {
           map?.panTo(newPos);
           map?.setZoom(15);
           setIsLocating(false);
-          toast({ title: 'Location updated to your current position.' });
+          toast({ title: t('location_updated') });
         },
         (error) => {
           console.error('Geolocation error:', error);
           toast({
             variant: 'destructive',
-            title: 'Could not get current location',
-            description: 'Please ensure location permissions are enabled for this site.',
+            title: t('location_error_title'),
+            description: t('location_error_desc'),
           });
           setIsLocating(false);
         }
@@ -59,8 +62,8 @@ function InnerLocationPicker({ onLocationSet }: LocationPickerProps) {
     } else {
       toast({
         variant: 'destructive',
-        title: 'Geolocation not supported',
-        description: 'Your browser does not support geolocation.',
+        title: t('location_unsupported_title'),
+        description: t('location_unsupported_desc'),
       });
       setIsLocating(false);
     }
@@ -88,20 +91,21 @@ function InnerLocationPicker({ onLocationSet }: LocationPickerProps) {
         </div>
         <Button type="button" onClick={handleUseCurrentLocation} disabled={isLocating}>
             {isLocating ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <LocateFixed className="mr-2 h-4 w-4" />}
-            Use My Current Location
+            {t('use_my_current_location')}
         </Button>
-        <p className="text-sm text-muted-foreground">Click or drag the marker on the map to set the issue location.</p>
+        <p className="text-sm text-muted-foreground">{t('location_picker_desc')}</p>
     </div>
   );
 }
 
 
 export function LocationPicker({ onLocationSet }: LocationPickerProps) {
+    const { t } = useLanguage();
     if (!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY) {
         return (
           <div className="flex h-[400px] items-center justify-center rounded-lg border bg-muted">
             <p className="text-center text-muted-foreground">
-              Google Maps API Key is not configured. <br /> Location pinning is disabled.
+              {t('maps_api_key_not_configured')} <br /> {t('location')} pinning is disabled.
             </p>
           </div>
         );

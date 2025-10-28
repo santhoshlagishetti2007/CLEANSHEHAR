@@ -14,6 +14,7 @@ import { Switch } from '@/components/ui/switch';
 import { issues } from '@/lib/data';
 import { IssueCard } from '@/components/issue-card';
 import Link from 'next/link';
+import { TranslatedText } from '@/components/translated-text';
 
 export default function ProfilePage() {
   const { user } = useAuth();
@@ -49,8 +50,8 @@ export default function ProfilePage() {
                   <AvatarFallback>{user.displayName?.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div>
-                  <CardTitle className="font-headline text-3xl">{user.displayName}</CardTitle>
-                  <CardDescription>{user.email}</CardDescription>
+                  <CardTitle className="font-headline text-3xl"><TranslatedText text={user.displayName || ''} /></CardTitle>
+                  <CardDescription><TranslatedText text={user.email || ''} /></CardDescription>
                 </div>
               </div>
             </CardHeader>

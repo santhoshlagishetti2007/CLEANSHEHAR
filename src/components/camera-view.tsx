@@ -7,6 +7,7 @@ import { Camera, RefreshCcw, Check } from 'lucide-react';
 import { Button } from './ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertTitle, AlertDescription } from './ui/alert';
+import { useLanguage } from '@/hooks/use-language';
 
 interface CameraViewProps {
   onPhotoTaken: (dataUri: string) => void;
@@ -15,6 +16,7 @@ interface CameraViewProps {
 
 export function CameraView({ onPhotoTaken, isVisible }: CameraViewProps) {
   const { toast } = useToast();
+  const { t } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
@@ -45,11 +47,11 @@ export function CameraView({ onPhotoTaken, isVisible }: CameraViewProps) {
       setHasCameraPermission(false);
       toast({
         variant: 'destructive',
-        title: 'Camera Access Denied',
-        description: 'Please enable camera permissions in your browser settings.',
+        title: t('camera_access_denied_toast'),
+        description: t('camera_access_denied'),
       });
     }
-  }, [toast]);
+  }, [toast, t]);
 
   useEffect(() => {
     if (isVisible) {
@@ -94,9 +96,9 @@ export function CameraView({ onPhotoTaken, isVisible }: CameraViewProps) {
   if (hasCameraPermission === false) {
     return (
       <Alert variant="destructive">
-        <AlertTitle>Camera Access Required</AlertTitle>
+        <AlertTitle>{t('camera_access_required')}</AlertTitle>
         <AlertDescription>
-          Please allow camera access in your browser settings to use this feature.
+          {t('camera_access_prompt')}
         </AlertDescription>
       </Alert>
     );
@@ -118,11 +120,11 @@ export function CameraView({ onPhotoTaken, isVisible }: CameraViewProps) {
           <>
             <Button onClick={retakePhoto} variant="outline" size="lg">
               <RefreshCcw className="mr-2 h-5 w-5" />
-              Retake
+              {t('retake_photo')}
             </Button>
             <Button onClick={confirmPhoto} size="lg">
               <Check className="mr-2 h-5 w-5" />
-              Confirm
+              {t('confirm_photo')}
             </Button>
           </>
         ) : (
