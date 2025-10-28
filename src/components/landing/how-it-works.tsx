@@ -34,10 +34,8 @@ export function HowItWorks() {
   return (
     <section className="py-20 px-4">
         <div className="container mx-auto max-w-6xl">
-            <div className="text-center flex flex-col items-center">
-                <div className="scale-125 mb-2">
-                    <Logo />
-                </div>
+            <div className="text-center">
+                <h2 className="font-headline text-4xl font-bold">{t('how_it_works_title')}</h2>
                 <p className="mt-2 text-muted-foreground">{t('how_it_works_subtitle')}</p>
             </div>
             <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
