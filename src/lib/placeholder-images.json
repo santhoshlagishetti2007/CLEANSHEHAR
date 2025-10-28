@@ -1,3 +1,70 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "avatar-1",
+      "description": "Avatar for Ananya Sharma",
+      "imageUrl": "https://images.unsplash.com/photo-1557053910-d9eadeed1c58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3b21hbiUyMHBvcnRyYWl0fGVufDB8fHx8MTc2MTU5OTgzN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "woman portrait"
+    },
+    {
+      "id": "avatar-2",
+      "description": "Avatar for Rohan Verma",
+      "imageUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxtYW4lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjE1NjA4MTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "man portrait"
+    },
+    {
+      "id": "avatar-3",
+      "description": "Avatar for Priya Patel",
+      "imageUrl": "https://images.unsplash.com/flagged/photo-1559855603-ce4c8f480d76?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHx3b21hbiUyMHNtaWxpbmd8ZW58MHx8fHwxNzYxNTU1MjQwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "woman smiling"
+    },
+    {
+      "id": "avatar-4",
+      "description": "Avatar for Arjun Singh",
+      "imageUrl": "https://images.unsplash.com/photo-1728830990237-452ade78f96e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bWFuJTIwZ2xhc3Nlc3xlbnwwfHx8fDE3NjE2MDQ1NzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "man glasses"
+    },
+    {
+      "id": "avatar-official",
+      "description": "Avatar for a government official",
+      "imageUrl": "https://images.unsplash.com/photo-1562788869-4ed32648eb72?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxwcm9mZXNzaW9uYWwlMjBtYW58ZW58MHx8fHwxNzYxNTg2MDM4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "professional man"
+    },
+    {
+      "id": "issue-pothole",
+      "description": "A large pothole on a city street.",
+      "imageUrl": "https://images.unsplash.com/photo-1758486158509-3134ec0b9ab0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxwb3Rob2xlJTIwcm9hZHxlbnwwfHx8fDE3NjE2MTg0MDV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "pothole road"
+    },
+    {
+      "id": "issue-garbage",
+      "description": "An overflowing garbage bin on a sidewalk.",
+      "imageUrl": "https://images.unsplash.com/photo-1722305283808-c5403873a17d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnYXJiYWdlJTIwb3ZlcmZsb3d8ZW58MHx8fHwxNzYxNjE4NDA1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "garbage overflow"
+    },
+    {
+      "id": "issue-streetlight",
+      "description": "A broken streetlight at night.",
+      "imageUrl": "https://images.unsplash.com/photo-1742119193536-7d228ef7f466?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxicm9rZW4lMjBzdHJlZXRsaWdodHxlbnwwfHx8fDE3NjE1NjI3NjZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "broken streetlight"
+    },
+    {
+      "id": "issue-water-logging",
+      "description": "A water-logged street after rain.",
+      "imageUrl": "https://images.unsplash.com/photo-1657069344312-a500de53b566?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmbG9vZGVkJTIwc3RyZWV0fGVufDB8fHx8MTc2MTU2Mjc2Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "flooded street"
+    },
+    {
+      "id": "issue-broken-pipe",
+      "description": "A broken water pipe leaking onto the street.",
+      "imageUrl": "https://images.unsplash.com/photo-1759757707824-4e5f54b7a43c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxsZWFraW5nJTIwcGlwZXxlbnwwfHx8fDE3NjE1NTg3MDB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "leaking pipe"
+    },
+    {
+      "id": "map-background",
+      "description": "A generic city map view",
+      "imageUrl": "https://images.unsplash.com/photo-1717700299581-c2fc3fad4ee8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjaXR5JTIwbWFwfGVufDB8fHx8MTc2MTYwMDM0Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "city map"
+    }
+  ]
 }
