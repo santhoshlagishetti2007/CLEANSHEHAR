@@ -46,7 +46,6 @@ export default function CommunityPage() {
   const [posts, setPosts] = useState(initialPosts);
   const [issues, setIssues] = useState<Issue[]>(initialIssues);
   const [newPostContent, setNewPostContent] = useState('');
-  const [isReportDialogOpen, setReportDialogOpen] = useState(false);
 
 
   const handleCreatePost = () => {
@@ -85,7 +84,7 @@ export default function CommunityPage() {
           </div>
 
           <Tabs defaultValue="issues" className="w-full">
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-center items-center mb-6">
                 <TabsList className="grid w-full grid-cols-2 md:w-[400px]">
                   <TabsTrigger value="issues">
                     <FileText className="mr-2 h-4 w-4" />
@@ -96,15 +95,6 @@ export default function CommunityPage() {
                     General Discussions
                   </TabsTrigger>
                 </TabsList>
-                <ReportIssueDialog
-                  open={isReportDialogOpen}
-                  onOpenChange={setReportDialogOpen}
-                  onIssueReported={handleIssueReported}
-                >
-                  <Button onClick={() => setReportDialogOpen(true)} size="lg">
-                    {t('report_new_issue')}
-                  </Button>
-                </ReportIssueDialog>
             </div>
             <TabsContent value="issues" className="mt-6">
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
