@@ -2,13 +2,14 @@ import * as React from "react";
 
 export function Logo(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <div className="flex items-center justify-center gap-2 text-2xl font-bold font-headline text-primary">
+    <div className="flex items-center justify-center gap-2 text-2xl font-bold font-headline">
       <svg
         width="28"
         height="28"
         viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        className="text-primary"
         {...props}
       >
         <path
@@ -19,7 +20,7 @@ export function Logo(props: React.SVGProps<SVGSVGElement>) {
           strokeLinejoin="round"
         />
       </svg>
-      <span>Clear<span className="text-foreground">शहर</span></span>
+      <span className="text-primary">Clear</span><span className="text-accent">शहर</span>
     </div>
   );
 }
