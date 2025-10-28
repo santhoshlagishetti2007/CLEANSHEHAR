@@ -1,7 +1,7 @@
 
 'use client'
 
-import { useState } from 'react';
+import { useState, use } from 'react';
 import Image from 'next/image';
 import {
   ArrowLeft,
@@ -38,10 +38,11 @@ function IssueStatusBadge({ status, t }: { status: Issue['status'], t: (key: any
 }
 
 export default function IssueDetailPage({ params }: { params: { id: string } }) {
+  const resolvedParams = use(Promise.resolve(params));
   const { t } = useLanguage();
   const { user, isAuthenticated, openAuthModal } = useAuth();
   
-  const issue = issues.find(i => i.id === params.id);
+  const issue = issues.find(i => i.id === resolvedParams.id);
   const [comments, setComments] = useState<Comment[]>(issue?.comments || []);
   const [newComment, setNewComment] = useState('');
 
