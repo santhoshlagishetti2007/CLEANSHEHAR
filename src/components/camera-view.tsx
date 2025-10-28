@@ -19,49 +19,50 @@ export function CameraView({ onPhotoTaken, isVisible }: CameraViewProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
-  const [stream, setStream] = useState<MediaStream | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
 
   const stopCamera = useCallback(() => {
-    if (stream) {
-      stream.getTracks().forEach(track => track.stop());
-      setStream(null);
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => track.stop());
+      streamRef.current = null;
+      if (videoRef.current) {
+        videoRef.current.srcObject = null;
+      }
     }
-  }, [stream]);
+  }, []);
+
+  const startCamera = useCallback(async () => {
+    if (streamRef.current) return;
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      streamRef.current = stream;
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+      }
+      setHasCameraPermission(true);
+    } catch (error) {
+      console.error('Error accessing camera:', error);
+      setHasCameraPermission(false);
+      toast({
+        variant: 'destructive',
+        title: 'Camera Access Denied',
+        description: 'Please enable camera permissions in your browser settings.',
+      });
+    }
+  }, [toast]);
 
   useEffect(() => {
-    const getCameraPermission = async () => {
-      if (!isVisible || hasCameraPermission) return;
-
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        setStream(stream);
-        setHasCameraPermission(true);
-
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-        }
-      } catch (error) {
-        console.error('Error accessing camera:', error);
-        setHasCameraPermission(false);
-        toast({
-          variant: 'destructive',
-          title: 'Camera Access Denied',
-          description: 'Please enable camera permissions in your browser settings.',
-        });
-      }
-    };
-
     if (isVisible) {
-      getCameraPermission();
+      startCamera();
     } else {
       stopCamera();
     }
     
-    // Cleanup on unmount or visibility change
+    // Cleanup on unmount
     return () => {
       stopCamera();
     };
-  }, [isVisible, hasCameraPermission, toast, stopCamera]);
+  }, [isVisible, startCamera, stopCamera]);
 
   const takePhoto = () => {
     if (videoRef.current && canvasRef.current) {
@@ -81,7 +82,7 @@ export function CameraView({ onPhotoTaken, isVisible }: CameraViewProps) {
 
   const retakePhoto = () => {
     setCapturedImage(null);
-    setHasCameraPermission(null); // Force permission re-check
+    startCamera();
   };
 
   const confirmPhoto = () => {
@@ -125,7 +126,7 @@ export function CameraView({ onPhotoTaken, isVisible }: CameraViewProps) {
             </Button>
           </>
         ) : (
-          <Button onClick={takePhoto} size="lg" className="rounded-full w-16 h-16" disabled={!hasCameraPermission}>
+          <Button onClick={takePhoto} size="lg" className="rounded-full w-16 h-16" disabled={hasCameraPermission === null}>
             <Camera className="h-7 w-7" />
           </Button>
         )}

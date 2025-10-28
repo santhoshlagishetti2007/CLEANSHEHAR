@@ -92,6 +92,7 @@ export function ReportIssueDialog({
       form.reset();
       setCurrentStep(1);
       setIsAnalyzing(false);
+      setActiveTab("upload");
     }
   }, [open, form]);
 
@@ -194,7 +195,7 @@ export function ReportIssueDialog({
             
             {/* Step 1: Media Source Selection */}
             {currentStep === 1 && (
-              <Tabs defaultValue="upload" className="w-full" onValueChange={setActiveTab}>
+              <Tabs value={activeTab} className="w-full" onValueChange={setActiveTab}>
                 <TabsList className="grid w-full grid-cols-2">
                   <TabsTrigger value="upload"><FileUp className="mr-2 h-4 w-4"/> Upload File</TabsTrigger>
                   <TabsTrigger value="camera"><Camera className="mr-2 h-4 w-4"/> Use Camera</TabsTrigger>
@@ -365,5 +366,3 @@ function FileUpload({ onMediaProvided }: { onMediaProvided: (dataUri: string) =>
     </div>
   );
 }
-
-    
