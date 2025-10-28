@@ -3,7 +3,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { LayoutDashboard, LifeBuoy, LogOut, UserCircle, PenSquare, Map, Users } from "lucide-react";
+import { LifeBuoy, LogOut, UserCircle, PenSquare, Map, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/icons";
 import { LanguageSelector } from "./language-selector";
@@ -52,6 +52,12 @@ export function AppHeader() {
                 <PenSquare className="mr-2 h-4 w-4" />
                 {t('report_new_issue')}
             </Button>
+            <Link href="/map" passHref>
+                <Button variant="ghost" size="sm">
+                    <Map className="mr-2 h-4 w-4" />
+                    {t('map_view')}
+                </Button>
+            </Link>
              <Link href="/community" passHref>
                <Button variant="ghost" size="sm">
                 <Users className="mr-2 h-4 w-4" />

@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -11,6 +12,24 @@ import { useState } from "react";
 import type { Issue } from "@/lib/types";
 import { Card } from "./ui/card";
 import { useLanguage } from "@/hooks/use-language";
+import Link from 'next/link';
+import { Button } from "./ui/button";
+
+const statusColors = {
+  Reported: {
+    background: "hsl(var(--primary))", // Blue
+    glyphColor: "hsl(var(--primary-foreground))",
+  },
+  "In Progress": {
+    background: "hsl(var(--accent))", // Yellow
+    glyphColor: "hsl(var(--accent-foreground))",
+  },
+  Resolved: {
+    background: "hsl(var(--muted-foreground))", // Gray
+    glyphColor: "hsl(var(--muted))",
+  },
+};
+
 
 export function MapView({ issues }: { issues: Issue[] }) {
   const { t } = useLanguage();
@@ -30,9 +49,15 @@ export function MapView({ issues }: { issues: Issue[] }) {
 
   const selectedIssue = issues.find(issue => issue.id === selectedIssueId);
 
+  // Function to calculate a slightly offset position to avoid marker overlap
+  const getOffsetPosition = (lat: number, lng: number, index: number) => {
+    const offset = 0.0005 * Math.floor(index / 5); // Add a small offset for every 5 markers
+    return { lat: lat + offset, lng: lng + offset };
+  }
+
   return (
     <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
-      <Card className="h-[600px] w-full overflow-hidden">
+      <Card className="h-[calc(100vh_-_10rem)] w-full overflow-hidden">
         <Map
           defaultCenter={position}
           defaultZoom={12}
@@ -40,20 +65,23 @@ export function MapView({ issues }: { issues: Issue[] }) {
           gestureHandling={"greedy"}
           disableDefaultUI={true}
         >
-          {issues.map((issue) => {
-            // Using mapCoordinates for relative positioning for now, should be replaced with real lat/lng
-            const lat = position.lat + (issue.location.mapCoordinates.y - 50) / 100;
-            const lng = position.lng + (issue.location.mapCoordinates.x - 50) / 100;
+          {issues.map((issue, index) => {
+            const issuePosition = getOffsetPosition(
+              position.lat + (issue.location.mapCoordinates.y - 50) / 100,
+              position.lng + (issue.location.mapCoordinates.x - 50) / 100,
+              index
+            );
+            const colors = statusColors[issue.status];
             return (
               <AdvancedMarker
                 key={issue.id}
-                position={{ lat, lng }}
+                position={issuePosition}
                 onClick={() => setSelectedIssueId(issue.id)}
               >
                 <Pin
-                  background={"hsl(var(--primary))"}
-                  borderColor={"hsl(var(--primary))"}
-                  glyphColor={"hsl(var(--primary-foreground))"}
+                  background={colors.background}
+                  borderColor={colors.background}
+                  glyphColor={colors.glyphColor}
                 />
               </AdvancedMarker>
             );
@@ -61,15 +89,20 @@ export function MapView({ issues }: { issues: Issue[] }) {
 
           {selectedIssue && (
              <InfoWindow
-                position={{
-                    lat: position.lat + (selectedIssue.location.mapCoordinates.y - 50) / 100,
-                    lng: position.lng + (selectedIssue.location.mapCoordinates.x - 50) / 100,
-                }}
+                position={getOffsetPosition(
+                    position.lat + (selectedIssue.location.mapCoordinates.y - 50) / 100,
+                    position.lng + (selectedIssue.location.mapCoordinates.x - 50) / 100,
+                    issues.findIndex(i => i.id === selectedIssue.id)
+                )}
                 onCloseClick={() => setSelectedIssueId(null)}
+                pixelOffset={[0, -30]}
             >
-                <div className="p-2">
+                <div className="p-2 w-48">
                     <h3 className="font-bold font-headline">{selectedIssue.title}</h3>
                     <p className="text-sm text-muted-foreground">{selectedIssue.department}</p>
+                    <Link href={`/issues/${selectedIssue.id}`} passHref>
+                        <Button variant="link" className="p-0 h-auto mt-2">View Details</Button>
+                    </Link>
                 </div>
              </InfoWindow>
           )}
