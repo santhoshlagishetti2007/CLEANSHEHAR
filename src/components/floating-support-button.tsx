@@ -13,7 +13,6 @@ export function FloatingSupportButton() {
     <div className="fixed bottom-4 left-4 z-50">
        <Link href="/support" passHref>
           <Button
-            isIconOnly
             size="lg"
             className="rounded-full shadow-lg"
             aria-label={t("support")}

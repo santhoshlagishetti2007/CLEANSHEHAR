@@ -11,6 +11,7 @@ import { useAuth } from '@/contexts/auth-context';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { users } from '@/lib/data';
 import { AuthModal } from '@/components/auth-modal';
+import { TranslatedText } from '@/components/translated-text';
 
 // Dummy data for community posts
 const initialPosts = [
@@ -68,7 +69,7 @@ export default function CommunityPage() {
           <div className="mb-8 text-center">
             <h1 className="font-headline text-4xl font-bold">Community Forum</h1>
             <p className="mt-2 text-muted-foreground">
-              Discuss local issues, share ideas, and connect with your neighbors.
+              <TranslatedText text="Discuss local issues, share ideas, and connect with your neighbors." />
             </p>
           </div>
 
@@ -106,7 +107,9 @@ export default function CommunityPage() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-foreground/90">{post.content}</p>
+                  <p className="text-foreground/90">
+                    <TranslatedText text={post.content} />
+                  </p>
                 </CardContent>
                 <CardFooter className="flex-col items-start gap-4">
                   <h3 className="text-sm font-semibold">Comments</h3>
@@ -118,7 +121,9 @@ export default function CommunityPage() {
                         </Avatar>
                         <div>
                             <span className="font-semibold">{comment.author.name}</span>
-                            <p className="text-muted-foreground">{comment.text}</p>
+                            <p className="text-muted-foreground">
+                                <TranslatedText text={comment.text} />
+                            </p>
                         </div>
                      </div>
                    ))}

@@ -20,17 +20,25 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { ReportIssueDialog } from "./report-issue-dialog";
 import { Issue } from "@/lib/types";
+import { AuthModal } from "./auth-modal";
 
 export function AppHeader() {
   const { t } = useLanguage();
-  const { user, isUserLoading, signIn, signOut } = useAuth();
+  const { user, isUserLoading, signIn, signOut, isAuthenticated } = useAuth();
   const [isReportDialogOpen, setReportDialogOpen] = useState(false);
+  const [isAuthModalOpen, setAuthModalOpen] = useState(false);
   
-  // This is a dummy handler. We'll need to decide where to lift the state
-  // for the issues list if we want to refresh it from the header.
   const handleIssueReported = (newIssue: Issue) => {
     console.log("New issue reported from header:", newIssue);
   };
+
+  const handleReportClick = () => {
+    if (!isAuthenticated) {
+      setAuthModalOpen(true);
+    } else {
+      setReportDialogOpen(true);
+    }
+  }
 
 
   return (
@@ -39,17 +47,11 @@ export function AppHeader() {
         <Link href="/" className="flex items-center gap-2">
           <Logo />
         </Link>
-        <div className="flex items-center gap-2">
-            <ReportIssueDialog
-              open={isReportDialogOpen}
-              onOpenChange={setReportDialogOpen}
-              onIssueReported={handleIssueReported}
-            >
-              <Button variant="ghost" size="sm" onClick={() => setReportDialogOpen(true)}>
+        <nav className="hidden items-center gap-2 md:flex">
+            <Button variant="ghost" size="sm" onClick={handleReportClick}>
                 <PenSquare className="mr-2 h-4 w-4" />
                 {t('report_new_issue')}
-              </Button>
-            </ReportIssueDialog>
+            </Button>
             <Link href="/issues" passHref>
                <Button variant="ghost" size="sm">
                 <Map className="mr-2 h-4 w-4" />
@@ -68,6 +70,8 @@ export function AppHeader() {
               {t("support")}
             </Button>
           </Link>
+        </nav>
+        <div className="flex items-center gap-2">
           <LanguageSelector />
           {isUserLoading ? null : user ? (
             <DropdownMenu>
@@ -76,7 +80,7 @@ export function AppHeader() {
                   <Avatar className="h-8 w-8">
                     <AvatarImage src={user.photoURL || ""} alt={user.displayName || ""} />
                     <AvatarFallback>
-                      {user.displayName?.charAt(0)}
+                      {user.displayName?.charAt(0) || user.email?.charAt(0)}
                     </AvatarFallback>
                   </Avatar>
                 </Button>
@@ -84,7 +88,7 @@ export function AppHeader() {
               <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">{user.displayName}</p>
+                    <p className="text-sm font-medium leading-none">{user.displayName || 'User'}</p>
                     <p className="text-xs leading-none text-muted-foreground">
                       {user.email}
                     </p>
@@ -111,6 +115,12 @@ export function AppHeader() {
           )}
         </div>
       </div>
+       <ReportIssueDialog
+        open={isReportDialogOpen}
+        onOpenChange={setReportDialogOpen}
+        onIssueReported={handleIssueReported}
+      />
+      <AuthModal open={isAuthModalOpen} onOpenChange={setAuthModalOpen} />
     </header>
   );
 }

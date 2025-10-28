@@ -19,6 +19,7 @@ import { useLanguage } from '@/hooks/use-language';
 import { issues, Issue, Comment } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import { AuthModal } from '@/components/auth-modal';
+import { TranslatedText } from '@/components/translated-text';
 
 function IssueStatusBadge({ status, t }: { status: Issue['status'], t: (key: any) => string }) {
   const statusVariant = {
@@ -97,9 +98,11 @@ export default function IssueDetailPage({ params }: { params: { id: string } }) 
                 </CardHeader>
                 <CardContent className="p-6">
                   <h1 className="mb-2 font-headline text-3xl font-bold">
-                    {issue.title}
+                    <TranslatedText text={issue.title} />
                   </h1>
-                  <p className="text-muted-foreground">{issue.description}</p>
+                  <p className="text-muted-foreground">
+                    <TranslatedText text={issue.description} />
+                  </p>
                 </CardContent>
               </Card>
 
@@ -132,7 +135,7 @@ export default function IssueDetailPage({ params }: { params: { id: string } }) 
                             </p>
                           </div>
                           <p className="text-sm text-foreground">
-                            {comment.text}
+                            <TranslatedText text={comment.text} />
                           </p>
                         </div>
                       </div>

@@ -8,6 +8,7 @@ import {
 } from "firebase/auth";
 import { useAuth as useFirebaseAuth, useUser } from "@/firebase";
 import type { User } from 'firebase/auth';
+import { AuthModal } from "@/components/auth-modal";
 
 interface AuthContextType {
   user: User | null;
@@ -26,6 +27,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signIn = async () => {
     const provider = new GoogleAuthProvider();
     try {
+      if (!auth) {
+        console.error("Auth service is not available.");
+        return;
+      }
       await signInWithPopup(auth, provider);
     } catch (error) {
       console.error("Error signing in with Google", error);
@@ -34,6 +39,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signOut = async () => {
     try {
+        if (!auth) {
+            console.error("Auth service is not available.");
+            return;
+        }
       await firebaseSignOut(auth);
     } catch (error) {
       console.error("Error signing out", error);
