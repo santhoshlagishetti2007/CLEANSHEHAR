@@ -48,8 +48,6 @@ import { TranslatedText } from "./translated-text";
 interface ReportIssueDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onIssueReported: (issue: Issue) => void;
-  children?: React.ReactNode;
 }
 
 const formSchema = z.object({
@@ -69,12 +67,10 @@ type FormData = z.infer<typeof formSchema>;
 export function ReportIssueDialog({
   open,
   onOpenChange,
-  onIssueReported,
-  children,
 }: ReportIssueDialogProps) {
   const { t } = useLanguage();
   const { toast } = useToast();
-  const { user, isAuthenticated, openAuthModal } = useAuth();
+  const { user, isAuthenticated, openAuthModal, addIssue } = useAuth();
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [activeTab, setActiveTab] = useState("upload");
@@ -134,6 +130,22 @@ export function ReportIssueDialog({
     }
   };
 
+  async function handleNextStep() {
+    const fieldsToValidate: (keyof FormData)[] = [];
+    if (currentStep === 2) fieldsToValidate.push('department');
+    if (currentStep === 4) fieldsToValidate.push('title', 'description');
+
+    if (fieldsToValidate.length > 0) {
+        const isValid = await form.trigger(fieldsToValidate);
+        if (isValid) {
+            setCurrentStep(prev => prev + 1);
+        }
+    } else {
+       setCurrentStep(prev => prev + 1);
+    }
+  }
+
+
   function onSubmit(values: FormData) {
     if (!isAuthenticated || !user) {
       openAuthModal();
@@ -158,7 +170,7 @@ export function ReportIssueDialog({
       upvotes: 1,
     };
 
-    onIssueReported(newIssue);
+    addIssue(newIssue);
     toast({
       title: t('issue_reported_toast_title'),
       description: t('issue_reported_toast_desc'),
@@ -176,7 +188,6 @@ export function ReportIssueDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      {children}
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-3xl">
         <DialogHeader>
           <div className="flex items-center gap-4">
@@ -313,7 +324,7 @@ export function ReportIssueDialog({
 
             <DialogFooter>
                 {currentStep > 1 && currentStep < 5 && (
-                    <Button type="button" onClick={() => setCurrentStep(prev => prev + 1)} className="w-full" size="lg" disabled={isAnalyzing}>
+                    <Button type="button" onClick={handleNextStep} className="w-full" size="lg" disabled={isAnalyzing}>
                       <TranslatedText text={t('next')} />
                     </Button>
                 )}

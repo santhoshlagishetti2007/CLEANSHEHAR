@@ -112,7 +112,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       <ReportIssueDialog
         open={isReportIssueModalOpen}
         onOpenChange={setReportIssueModalOpen}
-        onIssueReported={addIssue}
       />
     </AuthContext.Provider>
   );
