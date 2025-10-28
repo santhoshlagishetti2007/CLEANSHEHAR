@@ -11,6 +11,9 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Switch } from '@/components/ui/switch';
+import { issues } from '@/lib/data';
+import { IssueCard } from '@/components/issue-card';
+import Link from 'next/link';
 
 export default function ProfilePage() {
   const { user } = useAuth();
@@ -30,11 +33,14 @@ export default function ProfilePage() {
     );
   }
 
+  const userIssues = issues.filter(issue => issue.author.id === user.uid);
+
+
   return (
     <div className="flex min-h-screen w-full flex-col">
       <AppHeader />
       <main className="flex-1 bg-background px-4 py-8 md:px-6 lg:px-8">
-        <div className="container mx-auto max-w-2xl">
+        <div className="container mx-auto max-w-4xl space-y-8">
           <Card>
             <CardHeader>
               <div className="flex items-center gap-6">
@@ -69,6 +75,26 @@ export default function ProfilePage() {
                 />
               </div>
               <Button>Update Profile</Button>
+            </CardContent>
+          </Card>
+
+           <Card>
+            <CardHeader>
+              <CardTitle className="font-headline text-2xl">My Reported Issues</CardTitle>
+              <CardDescription>Here are the issues you've reported.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {userIssues.length > 0 ? (
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  {userIssues.map(issue => (
+                    <Link key={issue.id} href={`/issues/${issue.id}`} passHref>
+                      <IssueCard issue={issue} />
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted-foreground">You haven't reported any issues yet.</p>
+              )}
             </CardContent>
           </Card>
         </div>
