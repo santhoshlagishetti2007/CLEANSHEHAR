@@ -38,14 +38,12 @@ import { AuthModal } from "./auth-modal";
 import { aiCategorizeIssue } from "@/ai/flows/ai-categorize-issue";
 
 interface ReportIssueDialogProps {
-  children: React.ReactNode;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onIssueReported: (issue: Issue) => void;
 }
 
 export function ReportIssueDialog({
-  children,
   open,
   onOpenChange,
   onIssueReported,
@@ -152,7 +150,6 @@ export function ReportIssueDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      {children}
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle className="font-headline text-2xl">{t('report_issue_title')}</DialogTitle>
