@@ -11,6 +11,8 @@ import { useAuth as useFirebaseAuth, useUser } from "@/firebase";
 import type { User } from 'firebase/auth';
 import { AuthModal } from "@/components/auth-modal";
 import { LanguageProvider } from "./language-context";
+import { ReportIssueDialog } from "@/components/report-issue-dialog";
+import { Issue } from "@/lib/types";
 
 // Sample user for testing purposes
 const sampleUser: User = {
@@ -39,6 +41,7 @@ interface AuthContextType {
   signIn: () => Promise<void>;
   signOut: () => Promise<void>;
   openAuthModal: () => void;
+  openReportIssueModal: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -47,6 +50,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const auth = useFirebaseAuth();
   const { user: firebaseUser, isUserLoading: firebaseUserLoading } = useUser();
   const [isAuthModalOpen, setAuthModalOpen] = useState(false);
+  const [isReportIssueModalOpen, setReportIssueModalOpen] = useState(false);
 
   // Use the real Firebase user if available, otherwise use the sample user.
   const user = firebaseUser || sampleUser;
@@ -79,15 +83,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
   
   const openAuthModal = () => setAuthModalOpen(true);
-
   const isAuthenticated = !isUserLoading && !!user;
+  
+  const openReportIssueModal = () => {
+    if (!isAuthenticated) {
+      openAuthModal();
+    } else {
+      setReportIssueModalOpen(true);
+    }
+  };
 
-  const value = { user, isUserLoading, isAuthenticated, signIn, signOut, openAuthModal };
+  const handleIssueReported = (newIssue: Issue) => {
+    console.log("New issue reported:", newIssue);
+  };
+
+
+  const value = { user, isUserLoading, isAuthenticated, signIn, signOut, openAuthModal, openReportIssueModal };
 
   return (
     <AuthContext.Provider value={value}>
       {children}
       <AuthModal open={isAuthModalOpen} onOpenChange={setAuthModalOpen} />
+      <ReportIssueDialog
+        open={isReportIssueModalOpen}
+        onOpenChange={setReportIssueModalOpen}
+        onIssueReported={handleIssueReported}
+      />
     </AuthContext.Provider>
   );
 }

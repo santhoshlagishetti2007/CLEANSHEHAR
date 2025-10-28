@@ -3,10 +3,12 @@
 
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/hooks/use-language';
-import Link from 'next/link';
+import { useAuth } from '@/contexts/auth-context';
 
 export function CallToAction() {
   const { t } = useLanguage();
+  const { openReportIssueModal } = useAuth();
+  
   return (
     <section className="bg-primary/90 py-20 px-4">
       <div className="container mx-auto max-w-4xl text-center text-primary-foreground">
@@ -15,11 +17,9 @@ export function CallToAction() {
           {t('cta_subtitle')}
         </p>
         <div className="mt-8">
-            <Link href="/community" passHref>
-                 <Button size="lg" variant="secondary" className="bg-accent text-accent-foreground hover:bg-accent/90">
-                    {t('cta_button')}
-                 </Button>
-            </Link>
+            <Button size="lg" variant="secondary" onClick={openReportIssueModal} className="bg-accent text-accent-foreground hover:bg-accent/90">
+               {t('cta_button')}
+            </Button>
         </div>
       </div>
     </section>

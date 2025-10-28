@@ -18,29 +18,13 @@ import {
   DropdownMenuSeparator,
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { ReportIssueDialog } from "./report-issue-dialog";
-import { Issue } from "@/lib/types";
 import { SupportDialog } from "./support-dialog";
 
 export function AppHeader() {
   const { t } = useLanguage();
-  const { user, isUserLoading, signOut, isAuthenticated, openAuthModal } = useAuth();
-  const [isReportDialogOpen, setReportDialogOpen] = useState(false);
+  const { user, isUserLoading, signOut, openReportIssueModal, openAuthModal } = useAuth();
   const [isSupportDialogOpen, setSupportDialogOpen] = useState(false);
   
-  const handleIssueReported = (newIssue: Issue) => {
-    console.log("New issue reported from header:", newIssue);
-  };
-
-  const handleReportClick = () => {
-    if (!isAuthenticated) {
-      openAuthModal();
-    } else {
-      setReportDialogOpen(true);
-    }
-  }
-
-
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-card shadow-sm">
       <div className="container mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
@@ -48,7 +32,7 @@ export function AppHeader() {
           <Logo />
         </Link>
         <nav className="hidden items-center gap-2 md:flex">
-            <Button variant="ghost" size="sm" onClick={handleReportClick}>
+            <Button variant="ghost" size="sm" onClick={openReportIssueModal}>
                 <PenSquare className="mr-2 h-4 w-4" />
                 {t('report_new_issue')}
             </Button>
@@ -113,11 +97,6 @@ export function AppHeader() {
           )}
         </div>
       </div>
-       <ReportIssueDialog
-        open={isReportDialogOpen}
-        onOpenChange={setReportDialogOpen}
-        onIssueReported={handleIssueReported}
-      />
       <SupportDialog open={isSupportDialogOpen} onOpenChange={setSupportDialogOpen} />
     </header>
   );

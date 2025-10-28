@@ -4,13 +4,13 @@
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Logo } from '@/components/icons';
-import Image from 'next/image';
-import placeholderImages from '@/lib/placeholder-images.json';
 import { useLanguage } from '@/hooks/use-language';
+import { useAuth } from '@/contexts/auth-context';
 
 export function LandingHero() {
   const { t } = useLanguage();
-  const heroImage = placeholderImages.placeholderImages.find(p => p.id === 'landing-hero-doodle');
+  const { openReportIssueModal } = useAuth();
+  
   return (
     <section className="bg-card py-20 px-4">
       <div className="container mx-auto flex max-w-4xl flex-col items-center text-center">
@@ -26,9 +26,7 @@ export function LandingHero() {
           {t('hero_subtitle')}
         </p>
         <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-          <Link href="/community" passHref>
-            <Button size="lg">{t('hero_button_report')}</Button>
-          </Link>
+          <Button size="lg" onClick={openReportIssueModal}>{t('hero_button_report')}</Button>
           <Link href="/community" passHref>
             <Button size="lg" variant="outline">
               {t('hero_button_join')}
