@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Loader2, Sparkles, Upload } from "lucide-react";
+import { Loader2, Sparkles, Upload, ArrowLeft } from "lucide-react";
 import Image from "next/image";
 
 import { useAuth } from "@/contexts/auth-context";
@@ -15,6 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
+  DialogFooter,
 } from "@/components/ui/dialog";
 import {
   Form,
@@ -36,12 +37,25 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { AuthModal } from "./auth-modal";
 import { aiCategorizeIssue } from "@/ai/flows/ai-categorize-issue";
+import { Progress } from "./ui/progress";
+import { CameraView } from "./camera-view";
 
 interface ReportIssueDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onIssueReported: (issue: Issue) => void;
 }
+
+const formSchema = z.object({
+  title: z.string().min(10, "Title must be at least 10 characters."),
+  description: z
+    .string()
+    .min(20, "Description must be at least 20 characters."),
+  department: z.string().min(1, "Please select a department."),
+  mediaDataUri: z.string().min(1, "Please provide an image or video."),
+});
+
+type FormData = z.infer<typeof formSchema>;
 
 export function ReportIssueDialog({
   open,
@@ -52,69 +66,64 @@ export function ReportIssueDialog({
   const { toast } = useToast();
   const { user, isAuthenticated } = useAuth();
   const [isAuthModalOpen, setAuthModalOpen] = useState(false);
-  const [mediaPreview, setMediaPreview] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
+  const [mediaSource, setMediaSource] = useState<"upload" | "camera" | null>(null);
 
-  const formSchema = z.object({
-    title: z.string().min(10, "Title must be at least 10 characters."),
-    description: z
-      .string()
-      .min(20, "Description must be at least 20 characters."),
-    department: z.string().min(1, "Please select a department."),
-    media: z.any().refine(file => file, "Please upload an image or video."),
-  });
-
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
       description: "",
       department: "",
-      media: null,
+      mediaDataUri: "",
     },
   });
+  
+  useEffect(() => {
+    // Reset state when the dialog is closed
+    if (!open) {
+      form.reset();
+      setCurrentStep(1);
+      setMediaSource(null);
+      setIsAnalyzing(false);
+    }
+  }, [open, form]);
 
-  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      form.setValue("media", file);
-      const reader = new FileReader();
-      reader.onloadend = async () => {
-        const dataUri = reader.result as string;
-        setMediaPreview(dataUri);
-        
-        setIsAnalyzing(true);
-        toast({
-            title: t('analyzing_media'),
-            description: "Please wait a moment.",
-        });
+  const handleMediaProvided = async (dataUri: string) => {
+    form.setValue("mediaDataUri", dataUri);
+    setIsAnalyzing(true);
+    setCurrentStep(2);
 
-        try {
-          const { suggestedDepartment } = await aiCategorizeIssue({
-            mediaDataUri: dataUri,
-            description: form.getValues('description'),
-          });
-          form.setValue("department", suggestedDepartment);
-          toast({
-            title: "AI Suggestion Complete",
-            description: `We've suggested the ${suggestedDepartment}.`,
-          });
-        } catch (error) {
-          console.error("AI categorization failed:", error);
-          toast({
-            variant: "destructive",
-            title: "AI Analysis Failed",
-            description: "Could not analyze the media. Please select a department manually.",
-          });
-        } finally {
-          setIsAnalyzing(false);
-        }
-      };
-      reader.readAsDataURL(file);
+    toast({
+      title: t('analyzing_media'),
+      description: "Please wait a moment.",
+    });
+
+    try {
+      const descriptionForAnalysis = form.getValues('description') || "No description yet.";
+      const { suggestedDepartment } = await aiCategorizeIssue({
+        mediaDataUri: dataUri,
+        description: descriptionForAnalysis,
+      });
+      form.setValue("department", suggestedDepartment);
+      toast({
+        title: "AI Suggestion Complete",
+        description: `We've suggested the ${suggestedDepartment}.`,
+      });
+    } catch (error) {
+      console.error("AI categorization failed:", error);
+      toast({
+        variant: "destructive",
+        title: "AI Analysis Failed",
+        description: "Could not analyze the media. Please select a department manually.",
+      });
+    } finally {
+      setIsAnalyzing(false);
     }
   };
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: FormData) {
     if (!isAuthenticated || !user) {
       setAuthModalOpen(true);
       return;
@@ -124,7 +133,7 @@ export function ReportIssueDialog({
       id: `issue-${Date.now()}`,
       title: values.title,
       description: values.description,
-      imageUrl: mediaPreview || "",
+      imageUrl: values.mediaDataUri,
       imageHint: "newly reported issue",
       department: values.department,
       status: "Reported",
@@ -143,66 +152,82 @@ export function ReportIssueDialog({
       title: "Issue Reported!",
       description: "Thank you for helping improve your community.",
     });
-    form.reset();
-    setMediaPreview(null);
     onOpenChange(false);
   }
 
+  const goBack = () => {
+    if (currentStep === 1 && mediaSource) {
+      setMediaSource(null);
+    } else if (currentStep > 1) {
+      setCurrentStep(prev => prev - 1);
+    }
+  };
+
+  const mediaPreview = form.watch("mediaDataUri");
+  const progress = (currentStep / 4) * 100;
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
+      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-3xl">
         <DialogHeader>
-          <DialogTitle className="font-headline text-2xl">{t('report_issue_title')}</DialogTitle>
-          <DialogDescription>{t('report_issue_subtitle')}</DialogDescription>
+          <div className="flex items-center gap-4">
+             {currentStep > 1 || mediaSource ? (
+              <Button variant="ghost" size="icon" onClick={goBack}>
+                <ArrowLeft />
+              </Button>
+            ) : <div className="w-10 h-10"></div>}
+            <div className="flex-1">
+              <DialogTitle className="font-headline text-2xl">{t('report_issue_title')}</DialogTitle>
+              <DialogDescription>{t('report_issue_subtitle')}</DialogDescription>
+            </div>
+          </div>
         </DialogHeader>
+
+        <Progress value={progress} className="my-4" />
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            
+            {/* Step 1: Media Source Selection */}
+            {currentStep === 1 && !mediaSource && (
+              <div className="text-center py-8">
+                <h3 className="text-lg font-medium mb-4">How would you like to provide media?</h3>
+                <div className="flex justify-center gap-4">
+                  <Button type="button" onClick={() => setMediaSource('upload')}>Upload File</Button>
+                  <Button type="button" onClick={() => setMediaSource('camera')}>Use Camera</Button>
+                </div>
+              </div>
+            )}
+            
+            {/* Step 1.1: File Upload or Camera View */}
+            {currentStep === 1 && mediaSource === 'upload' && (
+              <FileUpload onMediaProvided={handleMediaProvided} />
+            )}
+            {currentStep === 1 && mediaSource === 'camera' && (
+               <CameraView onPhotoTaken={handleMediaProvided} isVisible={currentStep === 1 && mediaSource === 'camera'} />
+            )}
+
+
+            {/* Step 2: Department Selection */}
+            {currentStep === 2 && (
               <div className="space-y-6">
-                <FormField
-                  control={form.control}
-                  name="title"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t('issue_title_label')}</FormLabel>
-                      <FormControl>
-                        <Input placeholder={t('issue_title_placeholder')} {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="description"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t('description_label')}</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder={t('description_placeholder')}
-                          className="min-h-[120px]"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                 <div className="relative flex h-full min-h-[250px] w-full items-center justify-center rounded-lg border-2 border-dashed border-border bg-muted/50 transition-colors">
+                    {mediaPreview && <Image src={mediaPreview} alt="Media preview" layout="fill" className="rounded-lg object-contain p-2" />}
+                </div>
                 <FormField
                   control={form.control}
                   name="department"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="flex items-center">{t('department_label')}
-                       {isAnalyzing && <Loader2 className="ml-2 h-4 w-4 animate-spin" />}
-                       {form.getValues('department') && !isAnalyzing && <Sparkles className="ml-2 h-4 w-4 text-primary" />}
+                      <FormLabel className="flex items-center text-base">
+                        {t('department_label')}
+                        {isAnalyzing && <Loader2 className="ml-2 h-4 w-4 animate-spin" />}
+                        {!isAnalyzing && form.getValues('department') && <Sparkles className="ml-2 h-4 w-4 text-primary" />}
                       </FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value}>
+                      <Select onValueChange={field.onChange} value={field.value} disabled={isAnalyzing}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder={t('department_placeholder')} />
+                            <SelectValue placeholder={isAnalyzing ? "Analyzing..." : t('department_placeholder')} />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -216,46 +241,115 @@ export function ReportIssueDialog({
                   )}
                 />
               </div>
-              <div className="space-y-2">
+            )}
+
+            {/* Step 3: Title and Description */}
+            {currentStep === 3 && (
+              <div className="space-y-6">
                 <FormField
                   control={form.control}
-                  name="media"
+                  name="title"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{t('upload_media_label')}</FormLabel>
+                      <FormLabel className="text-base">{t('issue_title_label')}</FormLabel>
                       <FormControl>
-                        <div className="relative flex h-full min-h-[200px] w-full cursor-pointer items-center justify-center rounded-lg border-2 border-dashed border-border bg-muted/50 transition-colors hover:bg-muted">
-                           <Input
-                              type="file"
-                              accept="image/*,video/*"
-                              onChange={handleFileChange}
-                              className="absolute inset-0 z-10 h-full w-full opacity-0"
-                            />
-                          {mediaPreview ? (
-                            <Image src={mediaPreview} alt="Media preview" fill className="rounded-lg object-contain p-2" />
-                          ) : (
-                            <div className="flex flex-col items-center gap-2 text-center text-muted-foreground">
-                              <Upload className="h-10 w-10" />
-                              <span className="font-medium">{t('upload_media_button')}</span>
-                              <span className="text-xs">PNG, JPG, MP4 up to 10MB</span>
-                            </div>
-                          )}
-                        </div>
+                        <Input placeholder={t('issue_title_placeholder')} {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-base">{t('description_label')}</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder={t('description_placeholder')}
+                          className="min-h-[150px]"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
-            </div>
-            <Button type="submit" className="w-full" size="lg" disabled={isAnalyzing}>
-              {isAnalyzing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {t('submit_issue')}
-            </Button>
+            )}
+
+            {/* Step 4: Review and Submit */}
+            {currentStep === 4 && (
+              <div className="space-y-4">
+                 <div className="relative flex h-full min-h-[250px] w-full items-center justify-center rounded-lg border-2 border-dashed border-border bg-muted/50 transition-colors">
+                    {mediaPreview && <Image src={mediaPreview} alt="Media preview" layout="fill" className="rounded-lg object-contain p-2" />}
+                </div>
+                <h3 className="font-bold text-lg">{form.getValues('title')}</h3>
+                <p className="text-sm text-muted-foreground">{form.getValues('description')}</p>
+                <p className="text-sm"><strong>Department:</strong> {form.getValues('department')}</p>
+              </div>
+            )}
+
+            <DialogFooter>
+                {currentStep > 1 && currentStep < 4 && (
+                    <Button type="button" onClick={() => setCurrentStep(prev => prev + 1)} className="w-full" size="lg" disabled={isAnalyzing}>
+                      Next
+                    </Button>
+                )}
+                {currentStep === 4 && (
+                    <Button type="submit" className="w-full" size="lg" disabled={isAnalyzing}>
+                      {t('submit_issue')}
+                    </Button>
+                )}
+            </DialogFooter>
           </form>
         </Form>
         <AuthModal open={isAuthModalOpen} onOpenChange={setAuthModalOpen} />
       </DialogContent>
     </Dialog>
+  );
+}
+
+
+// New component for the file upload step
+function FileUpload({ onMediaProvided }: { onMediaProvided: (dataUri: string) => void }) {
+  const { t } = useLanguage();
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setIsProcessing(true);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        onMediaProvided(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  return (
+    <div className="relative flex h-full min-h-[300px] w-full cursor-pointer items-center justify-center rounded-lg border-2 border-dashed border-border bg-muted/50 transition-colors hover:bg-muted">
+      <Input
+        type="file"
+        accept="image/*,video/*"
+        onChange={handleFileChange}
+        className="absolute inset-0 z-10 h-full w-full opacity-0"
+        disabled={isProcessing}
+      />
+      {isProcessing ? (
+         <div className="flex flex-col items-center gap-2 text-center text-muted-foreground">
+            <Loader2 className="h-10 w-10 animate-spin" />
+            <span className="font-medium">Processing...</span>
+          </div>
+      ) : (
+        <div className="flex flex-col items-center gap-2 text-center text-muted-foreground">
+          <Upload className="h-10 w-10" />
+          <span className="font-medium">{t('upload_media_button')}</span>
+          <span className="text-xs">PNG, JPG up to 10MB</span>
+        </div>
+      )}
+    </div>
   );
 }
