@@ -79,9 +79,9 @@ const issueImages = {
 export const issues: Issue[] = [
   {
     id: "issue-1",
-    title: "Massive Pothole on Main St",
+    title: "Massive Pothole on Janpath",
     description:
-      "A very large and dangerous pothole has formed on Main Street, near the city hospital. It's causing traffic issues and could damage vehicles.",
+      "A very large and dangerous pothole has formed on Janpath, near Connaught Place. It's causing traffic issues and could damage vehicles.",
     imageUrl: issueImages.pothole?.imageUrl || "",
     imageHint: issueImages.pothole?.imageHint || "pothole road",
     department: "Public Works Department",
@@ -89,17 +89,17 @@ export const issues: Issue[] = [
     author: users.ananya,
     timestamp: "2024-07-22T09:15:00Z",
     location: {
-      address: "123 Main St, Near City Hospital",
-      mapCoordinates: { y: 28.6139, x: 77.2090 },
+      address: "12 Janpath, Connaught Place, New Delhi",
+      mapCoordinates: { y: 28.627, x: 77.216 },
     },
     comments: [comments[0], comments[1], comments[2]],
     upvotes: 42,
   },
   {
     id: "issue-2",
-    title: "Garbage Overflow at Park Entrance",
+    title: "Garbage Overflow at Lodhi Garden",
     description:
-      "The garbage bins at the main entrance of Central Park are overflowing. It's attracting pests and smells terrible. Needs immediate attention.",
+      "The garbage bins at the main entrance of Lodhi Garden are overflowing. It's attracting pests and smells terrible. Needs immediate attention.",
     imageUrl: issueImages.garbage?.imageUrl || "",
     imageHint: issueImages.garbage?.imageHint || "garbage overflow",
     department: "Sanitation Department",
@@ -107,17 +107,17 @@ export const issues: Issue[] = [
     author: users.rohan,
     timestamp: "2024-07-21T14:00:00Z",
     location: {
-      address: "Central Park, Oak Avenue Entrance",
-      mapCoordinates: { y: 28.6150, x: 77.2195 },
+      address: "Lodhi Garden, Lodhi Estate, New Delhi",
+      mapCoordinates: { y: 28.5925, x: 77.2188 },
     },
     comments: [comments[3], comments[4]],
     upvotes: 28,
   },
   {
     id: "issue-3",
-    title: "Streetlight Out on 2nd Avenue",
+    title: "Streetlight Out on Aurangzeb Road",
     description:
-      "The streetlight at the intersection of 2nd Ave and Pine St has been out for three nights. It's very dark and feels unsafe.",
+      "The streetlight at the intersection of Aurangzeb Road and Safdarjung Lane has been out for three nights. It's very dark and feels unsafe.",
     imageUrl: issueImages.streetlight?.imageUrl || "",
     imageHint: issueImages.streetlight?.imageHint || "broken streetlight",
     department: "Electricity Department",
@@ -125,17 +125,17 @@ export const issues: Issue[] = [
     author: users.priya,
     timestamp: "2024-07-19T21:00:00Z",
     location: {
-      address: "Intersection of 2nd Ave & Pine St",
-      mapCoordinates: { y: 28.6120, x: 77.2150 },
+      address: "APJ Abdul Kalam Rd & Safdarjung Ln, New Delhi",
+      mapCoordinates: { y: 28.600, x: 77.220 },
     },
     comments: [],
     upvotes: 15,
   },
   {
     id: "issue-4",
-    title: "Water Logging after rain",
+    title: "Water Logging after rain in Chandni Chowk",
     description:
-      "Heavy water logging on the Market Road after yesterday's rain. It is impossible to walk or drive through this section. Drainage system seems blocked.",
+      "Heavy water logging on the main Chandni Chowk road after yesterday's rain. It is impossible to walk or drive through this section. Drainage system seems blocked.",
     imageUrl: issueImages.waterLogging?.imageUrl || "",
     imageHint: issueImages.waterLogging?.imageHint || "flooded street",
     department: "Drainage Department",
@@ -143,8 +143,8 @@ export const issues: Issue[] = [
     author: users.arjun,
     timestamp: "2024-07-23T08:00:00Z",
     location: {
-      address: "Market Road, near old clock tower",
-      mapCoordinates: { y: 28.6180, x: 77.2000 },
+      address: "Chandni Chowk, near Red Fort, New Delhi",
+      mapCoordinates: { y: 28.656, x: 77.241 },
     },
     comments: [],
     upvotes: 35,

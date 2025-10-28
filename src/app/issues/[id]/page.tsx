@@ -172,11 +172,11 @@ export default function IssueDetailPage({ params }: { params: { id: string } }) 
                   </div>
                   <div className="flex items-start">
                     <div className="w-24 font-semibold text-muted-foreground">{t('department')}</div>
-                    <span>{issue.department}</span>
+                    <span><TranslatedText text={issue.department} /></span>
                   </div>
                   <div className="flex items-start">
                     <div className="w-24 font-semibold text-muted-foreground">{t('location')}</div>
-                    <span>{issue.location.address}</span>
+                    <span><TranslatedText text={issue.location.address} /></span>
                   </div>
                   <div className="flex items-start">
                     <div className="w-24 font-semibold text-muted-foreground">{t('reported_by')}</div>

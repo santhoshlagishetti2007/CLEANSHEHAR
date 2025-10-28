@@ -11,6 +11,7 @@ import {
 import type { Issue } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/hooks/use-language";
+import { TranslatedText } from "./translated-text";
 
 interface IssueCardProps {
   issue: Issue;
@@ -52,11 +53,11 @@ export function IssueCard({ issue }: IssueCardProps) {
       </CardHeader>
       <CardContent className="flex-1 p-4">
         <CardTitle className="mb-2 font-headline text-lg leading-tight">
-          {issue.title}
+          <TranslatedText text={issue.title} />
         </CardTitle>
         <p className="flex items-center text-sm text-muted-foreground">
           <MapPin className="mr-1.5 h-4 w-4 flex-shrink-0" />
-          <span>{issue.location.address}</span>
+          <span><TranslatedText text={issue.location.address} /></span>
         </p>
       </CardContent>
       <CardFooter className="flex justify-between border-t p-4 text-sm text-muted-foreground">
