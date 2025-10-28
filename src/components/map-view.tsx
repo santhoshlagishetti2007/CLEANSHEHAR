@@ -10,10 +10,10 @@ import {
 } from "@vis.gl/react-google-maps";
 import { useState } from "react";
 import type { Issue } from "@/lib/types";
-import { Card } from "./ui/card";
 import { useLanguage } from "@/hooks/use-language";
 import Link from 'next/link';
 import { Button } from "./ui/button";
+import { Card } from "./ui/card";
 
 const statusColors = {
   Reported: {
@@ -39,7 +39,7 @@ export function MapView({ issues }: { issues: Issue[] }) {
 
   if (!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY) {
     return (
-      <div className="flex h-[500px] items-center justify-center rounded-lg border bg-muted">
+      <div className="flex h-[calc(100vh_-_4rem)] items-center justify-center rounded-lg border bg-muted">
         <p className="text-muted-foreground">
           Google Maps API Key is not configured.
         </p>
@@ -49,15 +49,9 @@ export function MapView({ issues }: { issues: Issue[] }) {
 
   const selectedIssue = issues.find(issue => issue.id === selectedIssueId);
 
-  // Function to calculate a slightly offset position to avoid marker overlap
-  const getOffsetPosition = (lat: number, lng: number, index: number) => {
-    const offset = 0.0005 * Math.floor(index / 5); // Add a small offset for every 5 markers
-    return { lat: lat + offset, lng: lng + offset };
-  }
-
   return (
     <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
-      <Card className="h-[calc(100vh_-_10rem)] w-full overflow-hidden">
+      <div className="h-[calc(100vh_-_4rem)] w-full">
         <Map
           defaultCenter={position}
           defaultZoom={12}
@@ -66,11 +60,7 @@ export function MapView({ issues }: { issues: Issue[] }) {
           disableDefaultUI={true}
         >
           {issues.map((issue, index) => {
-            const issuePosition = getOffsetPosition(
-              position.lat + (issue.location.mapCoordinates.y - 50) / 100,
-              position.lng + (issue.location.mapCoordinates.x - 50) / 100,
-              index
-            );
+            const issuePosition = { lat: issue.location.mapCoordinates.y, lng: issue.location.mapCoordinates.x };
             const colors = statusColors[issue.status];
             return (
               <AdvancedMarker
@@ -89,11 +79,7 @@ export function MapView({ issues }: { issues: Issue[] }) {
 
           {selectedIssue && (
              <InfoWindow
-                position={getOffsetPosition(
-                    position.lat + (selectedIssue.location.mapCoordinates.y - 50) / 100,
-                    position.lng + (selectedIssue.location.mapCoordinates.x - 50) / 100,
-                    issues.findIndex(i => i.id === selectedIssue.id)
-                )}
+                position={{ lat: selectedIssue.location.mapCoordinates.y, lng: selectedIssue.location.mapCoordinates.x }}
                 onCloseClick={() => setSelectedIssueId(null)}
                 pixelOffset={[0, -30]}
             >
@@ -108,7 +94,7 @@ export function MapView({ issues }: { issues: Issue[] }) {
           )}
 
         </Map>
-      </Card>
+      </div>
     </APIProvider>
   );
 }

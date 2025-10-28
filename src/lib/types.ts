@@ -26,7 +26,7 @@ export interface Issue {
   timestamp: string;
   location: {
     address: string;
-    mapCoordinates: { x: number; y: number };
+    mapCoordinates: { y: number; x: number }; // y is lat, x is lng
   };
   comments: Comment[];
   upvotes: number;

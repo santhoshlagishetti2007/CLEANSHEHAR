@@ -7,7 +7,8 @@ import Image from "next/image";
 
 import { useAuth } from "@/contexts/auth-context";
 import { useLanguage } from "@/hooks/use-language";
-import { departments, Issue } from "@/lib/data";
+import { departments } from "@/lib/data";
+import type { Issue } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -38,6 +39,8 @@ import { useToast } from "@/hooks/use-toast";
 import { aiCategorizeIssue } from "@/ai/flows/ai-categorize-issue";
 import { Progress } from "./ui/progress";
 import { CameraView } from "./camera-view";
+import { LocationPicker } from "./location-picker";
+
 
 interface ReportIssueDialogProps {
   open: boolean;
@@ -53,6 +56,8 @@ const formSchema = z.object({
     .min(20, "Description must be at least 20 characters."),
   department: z.string().min(1, "Please select a department."),
   mediaDataUri: z.string().min(1, "Please provide an image or video."),
+  latitude: z.number(),
+  longitude: z.number(),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -140,8 +145,8 @@ export function ReportIssueDialog({
       author: { id: user.uid, name: user.displayName || 'Anonymous', avatar: user.photoURL || '' },
       timestamp: new Date().toISOString(),
       location: {
-        address: "Near your current location",
-        mapCoordinates: { x: Math.random() * 80 + 10, y: Math.random() * 80 + 10 },
+        address: "User-pinned location",
+        mapCoordinates: { y: values.latitude, x: values.longitude },
       },
       comments: [],
       upvotes: 1,
@@ -164,7 +169,7 @@ export function ReportIssueDialog({
   };
 
   const mediaPreview = form.watch("mediaDataUri");
-  const progress = (currentStep / 4) * 100;
+  const progress = (currentStep / 5) * 100;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -243,9 +248,20 @@ export function ReportIssueDialog({
                 />
               </div>
             )}
-
-            {/* Step 3: Title and Description */}
+            
+            {/* Step 3: Location */}
             {currentStep === 3 && (
+                 <LocationPicker
+                    onLocationSet={(lat, lng) => {
+                      form.setValue('latitude', lat);
+                      form.setValue('longitude', lng);
+                    }}
+                  />
+            )}
+
+
+            {/* Step 4: Title and Description */}
+            {currentStep === 4 && (
               <div className="space-y-6">
                 <FormField
                   control={form.control}
@@ -280,8 +296,8 @@ export function ReportIssueDialog({
               </div>
             )}
 
-            {/* Step 4: Review and Submit */}
-            {currentStep === 4 && (
+            {/* Step 5: Review and Submit */}
+            {currentStep === 5 && (
               <div className="space-y-4">
                  <div className="relative flex h-full min-h-[250px] w-full items-center justify-center rounded-lg border-2 border-dashed border-border bg-muted/50 transition-colors">
                     {mediaPreview && <Image src={mediaPreview} alt="Media preview" layout="fill" className="rounded-lg object-contain p-2" />}
@@ -289,16 +305,17 @@ export function ReportIssueDialog({
                 <h3 className="font-bold text-lg">{form.getValues('title')}</h3>
                 <p className="text-sm text-muted-foreground">{form.getValues('description')}</p>
                 <p className="text-sm"><strong>Department:</strong> {form.getValues('department')}</p>
+                <p className="text-sm"><strong>Location:</strong> Lat: {form.getValues('latitude').toFixed(4)}, Lng: {form.getValues('longitude').toFixed(4)}</p>
               </div>
             )}
 
             <DialogFooter>
-                {currentStep > 1 && currentStep < 4 && (
+                {currentStep > 1 && currentStep < 5 && (
                     <Button type="button" onClick={() => setCurrentStep(prev => prev + 1)} className="w-full" size="lg" disabled={isAnalyzing}>
                       Next
                     </Button>
                 )}
-                {currentStep === 4 && (
+                {currentStep === 5 && (
                     <Button type="submit" className="w-full" size="lg" disabled={isAnalyzing}>
                       {t('submit_issue')}
                     </Button>

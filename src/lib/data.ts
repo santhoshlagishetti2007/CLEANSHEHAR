@@ -90,7 +90,7 @@ export const issues: Issue[] = [
     timestamp: "2024-07-22T09:15:00Z",
     location: {
       address: "123 Main St, Near City Hospital",
-      mapCoordinates: { x: 30, y: 40 },
+      mapCoordinates: { y: 28.6139, x: 77.2090 },
     },
     comments: [comments[0], comments[1], comments[2]],
     upvotes: 42,
@@ -108,7 +108,7 @@ export const issues: Issue[] = [
     timestamp: "2024-07-21T14:00:00Z",
     location: {
       address: "Central Park, Oak Avenue Entrance",
-      mapCoordinates: { x: 55, y: 60 },
+      mapCoordinates: { y: 28.6150, x: 77.2195 },
     },
     comments: [comments[3], comments[4]],
     upvotes: 28,
@@ -126,7 +126,7 @@ export const issues: Issue[] = [
     timestamp: "2024-07-19T21:00:00Z",
     location: {
       address: "Intersection of 2nd Ave & Pine St",
-      mapCoordinates: { x: 75, y: 25 },
+      mapCoordinates: { y: 28.6120, x: 77.2150 },
     },
     comments: [],
     upvotes: 15,
@@ -144,7 +144,7 @@ export const issues: Issue[] = [
     timestamp: "2024-07-23T08:00:00Z",
     location: {
       address: "Market Road, near old clock tower",
-      mapCoordinates: { x: 40, y: 75 },
+      mapCoordinates: { y: 28.6180, x: 77.2000 },
     },
     comments: [],
     upvotes: 35,
@@ -160,3 +160,4 @@ export const departments = [
   "Parks and Recreation",
   "Traffic Police",
 ];
+

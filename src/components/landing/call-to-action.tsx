@@ -12,7 +12,7 @@ export function CallToAction() {
           Join thousands of citizens working together to build cleaner, better cities.
         </p>
         <div className="mt-8">
-            <Link href="/issues" passHref>
+            <Link href="/community" passHref>
                  <Button size="lg" variant="secondary" className="bg-accent text-accent-foreground hover:bg-accent/90">
                     Report Your First Issue
                  </Button>

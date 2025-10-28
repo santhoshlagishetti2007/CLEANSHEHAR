@@ -14,7 +14,7 @@ export function LandingHero() {
         <div className="scale-150">
           <Logo />
         </div>
-        <p className="mt-4 text-sm text-muted-foreground">proudly 🇮🇳</p>
+        <p className="mt-4 text-base text-muted-foreground">proudly 🇮🇳</p>
         <h1 className="mt-4 font-headline text-5xl font-bold">
           <span className="text-primary">Your Voice</span>,{' '}
           <span className="text-accent">Your City</span>
@@ -24,12 +24,14 @@ export function LandingHero() {
           with government officials. Building cleaner, better cities together.
         </p>
         <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-          <Link href="/issues" passHref>
+          <Link href="/community" passHref>
             <Button size="lg">Report an Issue</Button>
           </Link>
-          <Button size="lg" variant="outline">
-            Join Community
-          </Button>
+          <Link href="/community" passHref>
+            <Button size="lg" variant="outline">
+              Join Community
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

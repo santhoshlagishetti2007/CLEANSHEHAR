@@ -16,7 +16,7 @@ export function SeeWhatsHappening() {
             Interactive map view shows all reported issues in your area. Get route warnings and stay informed about civic problems on your daily commute.
           </p>
           <div className="mt-8">
-            <Link href="/issues" passHref>
+            <Link href="/map" passHref>
                 <Button size="lg">Explore Map</Button>
             </Link>
           </div>
