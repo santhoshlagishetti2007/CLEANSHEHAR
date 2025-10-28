@@ -26,7 +26,7 @@ export default function ProfilePage() {
         <AppHeader />
         <main className="flex-1 bg-background px-4 py-8 md:px-6 lg:px-8">
           <div className="container mx-auto max-w-2xl text-center">
-            <p>Please sign in to view your profile.</p>
+            <p>{t('profile_please_sign_in')}</p>
           </div>
         </main>
       </div>
@@ -56,16 +56,16 @@ export default function ProfilePage() {
             </CardHeader>
             <CardContent className="space-y-6 pt-6">
               <div className="space-y-2">
-                <Label htmlFor="username">Username</Label>
+                <Label htmlFor="username">{t('username')}</Label>
                 <Input id="username" defaultValue={user.displayName || ''} />
               </div>
               <div className="flex items-center justify-between rounded-lg border p-4">
                 <div>
                   <Label htmlFor="official-mode" className="font-semibold">
-                    Official Account
+                    {t('official_account')}
                   </Label>
                   <p className="text-sm text-muted-foreground">
-                    Enable this if you are a government official.
+                    {t('official_account_desc')}
                   </p>
                 </div>
                 <Switch
@@ -74,14 +74,14 @@ export default function ProfilePage() {
                   onCheckedChange={setIsOfficial}
                 />
               </div>
-              <Button>Update Profile</Button>
+              <Button>{t('update_profile')}</Button>
             </CardContent>
           </Card>
 
            <Card>
             <CardHeader>
-              <CardTitle className="font-headline text-2xl">My Reported Issues</CardTitle>
-              <CardDescription>Here are the issues you've reported.</CardDescription>
+              <CardTitle className="font-headline text-2xl">{t('my_reported_issues')}</CardTitle>
+              <CardDescription>{t('my_reported_issues_desc')}</CardDescription>
             </CardHeader>
             <CardContent>
               {userIssues.length > 0 ? (
@@ -93,7 +93,7 @@ export default function ProfilePage() {
                   ))}
                 </div>
               ) : (
-                <p className="text-muted-foreground">You haven't reported any issues yet.</p>
+                <p className="text-muted-foreground">{t('no_issues_reported')}</p>
               )}
             </CardContent>
           </Card>

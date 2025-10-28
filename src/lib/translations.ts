@@ -107,6 +107,16 @@ export const translationsData = {
     cta_title: "Ready to Make a Difference?",
     cta_subtitle: "Join thousands of citizens working together to build cleaner, better cities.",
     cta_button: "Report Your First Issue",
+    
+    // Profile Page
+    profile_please_sign_in: "Please sign in to view your profile.",
+    username: "Username",
+    official_account: "Official Account",
+    official_account_desc: "Enable this if you are a government official.",
+    update_profile: "Update Profile",
+    my_reported_issues: "My Reported Issues",
+    my_reported_issues_desc: "Here are the issues you've reported.",
+    no_issues_reported: "You haven't reported any issues yet.",
   },
   hi: {
     app_name: "Clearशहर",
@@ -197,6 +207,16 @@ export const translationsData = {
     cta_title: "क्या आप बदलाव लाने के लिए तैयार हैं?",
     cta_subtitle: "स्वच्छ, बेहतर शहरों के निर्माण के लिए एक साथ काम करने वाले हजारों नागरिकों में शामिल हों।",
     cta_button: "अपना पहला मुद्दा रिपोर्ट करें",
+
+    // Profile Page
+    profile_please_sign_in: "अपनी प्रोफ़ाइल देखने के लिए कृपया साइन इन करें।",
+    username: "उपयोगकर्ता नाम",
+    official_account: "आधिकारिक खाता",
+    official_account_desc: "यदि आप एक सरकारी अधिकारी हैं तो इसे सक्षम करें।",
+    update_profile: "प्रोफ़ाइल अपडेट करें",
+    my_reported_issues: "मेरे द्वारा रिपोर्ट किए गए मुद्दे",
+    my_reported_issues_desc: "यहां वे मुद्दे हैं जिनकी आपने रिपोर्ट की है।",
+    no_issues_reported: "आपने अभी तक कोई मुद्दा रिपोर्ट नहीं किया है।",
   },
   ta: {
     app_name: "Clearநகரம்",
@@ -380,7 +400,7 @@ export const translationsData = {
 
 // Simple proxy to fill other languages with english translation for demo
 for (const lang of Object.keys(languages)) {
-    if (lang !== 'en' && lang !== 'hi' && lang !== 'ta' && lang !== 'te') {
+    if (!translationsData[lang as Language]) {
         translationsData[lang as Language] = { ...translationsData.en };
     }
 }
