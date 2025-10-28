@@ -17,7 +17,7 @@ export function LandingHero() {
         <div className="scale-150">
           <Logo />
         </div>
-        <p className="mt-4 text-base text-muted-foreground">proudly 🇮🇳</p>
+        <p className="mt-4 text-base text-muted-foreground">{t('proudly_indian')}</p>
         <h1 className="mt-4 font-headline text-5xl font-bold">
           <span className="text-primary">{t('hero_title_voice')}</span>,{' '}
           <span className="text-accent">{t('hero_title_city')}</span>
