@@ -51,7 +51,7 @@
     {
       "id": "issue-water-logging",
       "description": "A water-logged street after rain.",
-      "imageUrl": "https://images.unsplash.com/photo-1657069344312-a500de53b566?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmbG9vZGVkJTIwc3RyZWV0fGVufDB8fHx8MTc2MTU2Mjc2Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1657069344312-a500de53b566?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmbG9vZGVkJTIwc3RyZWV0fGVufDB8fHx8fDE3NjE1NjI3NjZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "flooded street"
     },
     {
@@ -63,26 +63,26 @@
     {
       "id": "map-background",
       "description": "A generic city map view",
-      "imageUrl": "https://images.unsplash.com/photo-1717700299581-c2fc3fad4ee8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjaXR5JTIwbWFwfGVufDB8fHx8MTc2MTYwMDM0Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1717700299581-c2fc3fad4ee8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjaXR5J2wbWFwfGVufDB8fHx8MTc2MTYwMDM0Nnww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "city map"
     },
     {
-      "id": "landing-hero",
-      "description": "A group of people in a city, engaged with their phones.",
-      "imageUrl": "https://images.unsplash.com/photo-1541747683933-a39c82098d5c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxpbmlhbiUyMHBlb3BsZSUyMGNpdHl8ZW58MHx8fHwxNzYxNjE4NDA1fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "indian people city"
+      "id": "landing-hero-doodle",
+      "description": "Canva-style doodle of a vibrant community in a clean city.",
+      "imageUrl": "https://images.unsplash.com/photo-1643186086205-d09901aa0e77?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjb21tdW5pdHklMjBjaXR5JTIwZG9vZGxlfGVufDB8fHx8MTc2MTYxOTMxOXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "community city doodle"
     },
     {
-      "id": "language-feature",
-      "description": "A diverse group of people from India, smiling and talking.",
-      "imageUrl": "https://images.unsplash.com/photo-1534140029873-180860824b27?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxpbmRpYW4lMjBwZW9wbGUlMjBkaXZlcnNlfGVufDB8fHx8MTc2MTYxODQwNXww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "diverse indian people"
+      "id": "language-feature-doodle",
+      "description": "Canva-style doodle showing people communicating with speech bubbles.",
+      "imageUrl": "https://images.unsplash.com/photo-1558180687-8e7a385c6b55?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjb21tdW5pY2F0aW9uJTIwZG9vZGxlfGVufDB8fHx8MTc2MTYxOTMxOXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "communication doodle"
     },
     {
-      "id": "india-map",
-      "description": "A map of India with pins on it.",
-      "imageUrl": "https://images.unsplash.com/photo-1586566031854-4735518b2641?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxpbmRpYSUyMG1hcHxlbnwwfHx8fDE3NjE2MTg0MDV8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "india map"
+      "id": "see-whats-happening-doodle",
+      "description": "Canva-style doodle of a map with pins and characters.",
+      "imageUrl": "https://images.unsplash.com/photo-1705370401172-083571283df6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxtYXAlMjBkb29kbGV8ZW58MHx8fHwxNzYxNjE5MzE5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "map doodle"
     }
   ]
 }

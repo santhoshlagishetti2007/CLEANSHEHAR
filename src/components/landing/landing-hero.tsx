@@ -3,8 +3,11 @@
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Logo } from '@/components/icons';
+import Image from 'next/image';
+import placeholderImages from '@/lib/placeholder-images.json';
 
 export function LandingHero() {
+  const heroImage = placeholderImages.placeholderImages.find(p => p.id === 'landing-hero-doodle');
   return (
     <section className="bg-card py-20 px-4">
       <div className="container mx-auto flex max-w-4xl flex-col items-center text-center">
@@ -26,6 +29,17 @@ export function LandingHero() {
             Join Community
           </Button>
         </div>
+        {heroImage && (
+            <div className="relative mt-12 h-64 w-full max-w-2xl">
+                <Image
+                src={heroImage.imageUrl}
+                alt={heroImage.description}
+                fill
+                className="object-contain"
+                data-ai-hint={heroImage.imageHint}
+                />
+            </div>
+        )}
       </div>
     </section>
   );

@@ -6,7 +6,7 @@ import placeholderImages from '@/lib/placeholder-images.json';
 import Link from 'next/link';
 
 export function SeeWhatsHappening() {
-    const mapImage = placeholderImages.placeholderImages.find(p => p.id === 'india-map');
+    const mapImage = placeholderImages.placeholderImages.find(p => p.id === 'see-whats-happening-doodle');
   return (
     <section className="py-20 px-4">
       <div className="container mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 md:grid-cols-2">
@@ -25,7 +25,7 @@ export function SeeWhatsHappening() {
         {mapImage && (
             <Image
               src={mapImage.imageUrl}
-              alt="Map of India with issue pins"
+              alt={mapImage.description}
               fill
               className="rounded-lg object-contain"
               data-ai-hint={mapImage.imageHint}
