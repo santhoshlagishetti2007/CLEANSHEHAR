@@ -98,8 +98,8 @@ export default function CommunityPage() {
             <TabsContent value="issues" className="mt-6">
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {issues.map(issue => (
-                  <Link key={issue.id} href={`/issues/${issue.id}`} passHref>
-                    <a><IssueCard issue={issue} /></a>
+                  <Link key={issue.id} href={`/issues/${issue.id}`}>
+                    <IssueCard issue={issue} />
                   </Link>
                 ))}
               </div>

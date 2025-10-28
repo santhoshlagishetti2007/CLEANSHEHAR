@@ -57,16 +57,16 @@ export default function ProfilePage() {
             </CardHeader>
             <CardContent className="space-y-6 pt-6">
               <div className="space-y-2">
-                <Label htmlFor="username">{t('username')}</Label>
+                <Label htmlFor="username"><TranslatedText text={t('username')} /></Label>
                 <Input id="username" defaultValue={user.displayName || ''} />
               </div>
               <div className="flex items-center justify-between rounded-lg border p-4">
                 <div>
                   <Label htmlFor="official-mode" className="font-semibold">
-                    {t('official_account')}
+                    <TranslatedText text={t('official_account')} />
                   </Label>
                   <p className="text-sm text-muted-foreground">
-                    {t('official_account_desc')}
+                    <TranslatedText text={t('official_account_desc')} />
                   </p>
                 </div>
                 <Switch
@@ -75,26 +75,26 @@ export default function ProfilePage() {
                   onCheckedChange={setIsOfficial}
                 />
               </div>
-              <Button>{t('update_profile')}</Button>
+              <Button><TranslatedText text={t('update_profile')} /></Button>
             </CardContent>
           </Card>
 
            <Card>
             <CardHeader>
-              <CardTitle className="font-headline text-2xl">{t('my_reported_issues')}</CardTitle>
-              <CardDescription>{t('my_reported_issues_desc')}</CardDescription>
+              <CardTitle className="font-headline text-2xl"><TranslatedText text={t('my_reported_issues')} /></CardTitle>
+              <CardDescription><TranslatedText text={t('my_reported_issues_desc')} /></CardDescription>
             </CardHeader>
             <CardContent>
               {userIssues.length > 0 ? (
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                   {userIssues.map(issue => (
-                    <Link key={issue.id} href={`/issues/${issue.id}`} passHref>
+                    <Link key={issue.id} href={`/issues/${issue.id}`}>
                       <IssueCard issue={issue} />
                     </Link>
                   ))}
                 </div>
               ) : (
-                <p className="text-muted-foreground">{t('no_issues_reported')}</p>
+                <p className="text-muted-foreground"><TranslatedText text={t('no_issues_reported')} /></p>
               )}
             </CardContent>
           </Card>
