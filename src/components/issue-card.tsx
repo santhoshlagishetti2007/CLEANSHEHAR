@@ -1,3 +1,4 @@
+
 import Image from "next/image";
 import { MessageSquare, ThumbsUp, MapPin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -55,10 +56,10 @@ export function IssueCard({ issue }: IssueCardProps) {
         <CardTitle className="mb-2 font-headline text-lg leading-tight">
           <TranslatedText text={issue.title} />
         </CardTitle>
-        <p className="flex items-center text-sm text-muted-foreground">
+        <div className="flex items-center text-sm text-muted-foreground">
           <MapPin className="mr-1.5 h-4 w-4 flex-shrink-0" />
           <span><TranslatedText text={issue.location.address} /></span>
-        </p>
+        </div>
       </CardContent>
       <CardFooter className="flex justify-between border-t p-4 text-sm text-muted-foreground">
         <div className="flex items-center gap-1.5">
