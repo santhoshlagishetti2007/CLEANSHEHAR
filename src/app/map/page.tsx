@@ -3,9 +3,10 @@
 
 import { AppHeader } from "@/components/app-header";
 import { MapView } from "@/components/map-view";
-import { issues } from "@/lib/data";
+import { useAuth } from "@/contexts/auth-context";
 
 export default function MapPage() {
+    const { issues } = useAuth();
     return (
         <div className="flex min-h-screen w-full flex-col">
             <AppHeader />

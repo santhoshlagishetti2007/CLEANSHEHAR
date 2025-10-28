@@ -11,13 +11,12 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Switch } from '@/components/ui/switch';
-import { issues } from '@/lib/data';
 import { IssueCard } from '@/components/issue-card';
 import Link from 'next/link';
 import { TranslatedText } from '@/components/translated-text';
 
 export default function ProfilePage() {
-  const { user } = useAuth();
+  const { user, issues } = useAuth();
   const { t } = useLanguage();
   const [isOfficial, setIsOfficial] = useState(false); // This would come from user data in a real app
 
@@ -27,7 +26,7 @@ export default function ProfilePage() {
         <AppHeader />
         <main className="flex-1 bg-background px-4 py-8 md:px-6 lg:px-8">
           <div className="container mx-auto max-w-2xl text-center">
-            <p>{t('profile_please_sign_in')}</p>
+            <p><TranslatedText text={t('profile_please_sign_in')} /></p>
           </div>
         </main>
       </div>

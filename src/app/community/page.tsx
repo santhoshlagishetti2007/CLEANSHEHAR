@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useLanguage } from '@/hooks/use-language';
 import { useAuth } from '@/contexts/auth-context';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { issues as initialIssues, users as initialUsers, Issue } from '@/lib/data';
+import { users as initialUsers } from '@/lib/data';
 import { TranslatedText } from '@/components/translated-text';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { IssueCard } from '@/components/issue-card';
@@ -41,9 +41,8 @@ const initialPosts = [
 
 export default function CommunityPage() {
   const { t } = useLanguage();
-  const { user, isAuthenticated, openAuthModal } = useAuth();
+  const { user, isAuthenticated, openAuthModal, issues } = useAuth();
   const [posts, setPosts] = useState(initialPosts);
-  const [issues, setIssues] = useState<Issue[]>(initialIssues);
   const [newPostContent, setNewPostContent] = useState('');
 
 
@@ -64,11 +63,6 @@ export default function CommunityPage() {
       setNewPostContent('');
     }
   };
-
-  const handleIssueReported = (newIssue: Issue) => {
-    setIssues(prevIssues => [newIssue, ...prevIssues]);
-  };
-
 
   return (
     <div className="flex min-h-screen w-full flex-col">

@@ -13,6 +13,8 @@ import { AuthModal } from "@/components/auth-modal";
 import { ReportIssueDialog } from "@/components/report-issue-dialog";
 import { Issue } from "@/lib/types";
 import { useLanguage } from "@/hooks/use-language";
+import { issues as initialIssues } from '@/lib/data';
+
 
 // Sample user for testing purposes
 const sampleUser: User = {
@@ -42,6 +44,8 @@ interface AuthContextType {
   signOut: () => Promise<void>;
   openAuthModal: () => void;
   openReportIssueModal: () => void;
+  issues: Issue[];
+  addIssue: (issue: Issue) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -52,6 +56,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const { t } = useLanguage();
   const [isAuthModalOpen, setAuthModalOpen] = useState(false);
   const [isReportIssueModalOpen, setReportIssueModalOpen] = useState(false);
+  const [issues, setIssues] = useState<Issue[]>(initialIssues);
 
   // Use the real Firebase user if available, otherwise use the sample user.
   const user = firebaseUser || sampleUser;
@@ -94,12 +99,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const handleIssueReported = (newIssue: Issue) => {
-    console.log("New issue reported:", newIssue);
+  const addIssue = (newIssue: Issue) => {
+    setIssues(prevIssues => [newIssue, ...prevIssues]);
   };
 
-
-  const value = { user, isUserLoading, isAuthenticated, signIn, signOut, openAuthModal, openReportIssueModal };
+  const value = { user, isUserLoading, isAuthenticated, signIn, signOut, openAuthModal, openReportIssueModal, issues, addIssue };
 
   return (
     <AuthContext.Provider value={value}>
@@ -108,7 +112,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       <ReportIssueDialog
         open={isReportIssueModalOpen}
         onOpenChange={setReportIssueModalOpen}
-        onIssueReported={handleIssueReported}
+        onIssueReported={addIssue}
       />
     </AuthContext.Provider>
   );

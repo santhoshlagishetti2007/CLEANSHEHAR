@@ -17,7 +17,7 @@ import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { useAuth } from '@/contexts/auth-context';
 import { useLanguage } from '@/hooks/use-language';
-import { issues, Issue, Comment } from '@/lib/data';
+import { Comment, Issue } from '@/lib/types';
 import { notFound } from 'next/navigation';
 import { TranslatedText } from '@/components/translated-text';
 
@@ -40,7 +40,7 @@ function IssueStatusBadge({ status, t }: { status: Issue['status'], t: (key: any
 export default function IssueDetailPage({ params }: { params: { id: string } }) {
   const resolvedParams = use(params);
   const { t } = useLanguage();
-  const { user, isAuthenticated, openAuthModal } = useAuth();
+  const { user, isAuthenticated, openAuthModal, issues } = useAuth();
   
   const issue = issues.find(i => i.id === resolvedParams.id);
   const [comments, setComments] = useState<Comment[]>(issue?.comments || []);
