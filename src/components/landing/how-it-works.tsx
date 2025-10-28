@@ -36,7 +36,7 @@ export function HowItWorks() {
         <div className="container mx-auto max-w-6xl">
             <div className="text-center">
                 <h2 className="font-headline text-4xl font-bold flex items-center justify-center gap-2">
-                  How <Logo /> Works
+                  How <span className="scale-110"><Logo /></span> Works
                 </h2>
                 <p className="mt-2 text-muted-foreground">{t('how_it_works_subtitle')}</p>
             </div>
