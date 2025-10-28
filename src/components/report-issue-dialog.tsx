@@ -151,7 +151,7 @@ export function ReportIssueDialog({
       author: { id: user.uid, name: user.displayName || t('anonymous'), avatar: user.photoURL || '' },
       timestamp: new Date().toISOString(),
       location: {
-        address: "User-pinned location",
+        address: t('user_pinned_location'),
         mapCoordinates: { y: values.latitude, x: values.longitude },
       },
       comments: [],
@@ -186,8 +186,8 @@ export function ReportIssueDialog({
               </Button>
             ) : <div className="w-10 h-10"></div>}
             <div className="flex-1">
-              <DialogTitle className="font-headline text-2xl">{t('report_issue_title')}</DialogTitle>
-              <DialogDescription>{t('report_issue_subtitle')}</DialogDescription>
+              <DialogTitle className="font-headline text-2xl"><TranslatedText text={t('report_issue_title')} /></DialogTitle>
+              <DialogDescription><TranslatedText text={t('report_issue_subtitle')} /></DialogDescription>
             </div>
           </div>
         </DialogHeader>
@@ -203,8 +203,8 @@ export function ReportIssueDialog({
             {currentStep === 1 && (
               <Tabs value={activeTab} className="w-full" onValueChange={setActiveTab}>
                 <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="upload"><FileUp className="mr-2 h-4 w-4"/> {t('upload_file')}</TabsTrigger>
-                  <TabsTrigger value="camera"><Camera className="mr-2 h-4 w-4"/> {t('use_camera')}</TabsTrigger>
+                  <TabsTrigger value="upload"><FileUp className="mr-2 h-4 w-4"/> <TranslatedText text={t('upload_file')} /></TabsTrigger>
+                  <TabsTrigger value="camera"><Camera className="mr-2 h-4 w-4"/> <TranslatedText text={t('use_camera')} /></TabsTrigger>
                 </TabsList>
                 <TabsContent value="upload" className="pt-4">
                   <FileUpload onMediaProvided={handleMediaProvided} />
@@ -228,7 +228,7 @@ export function ReportIssueDialog({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="flex items-center text-base">
-                        {t('department_label')}
+                        <TranslatedText text={t('department_label')} />
                         {isAnalyzing && <Loader2 className="ml-2 h-4 w-4 animate-spin" />}
                         {!isAnalyzing && form.getValues('department') && <Sparkles className="ml-2 h-4 w-4 text-primary" />}
                       </FormLabel>
@@ -270,7 +270,7 @@ export function ReportIssueDialog({
                   name="title"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-base">{t('issue_title_label')}</FormLabel>
+                      <FormLabel className="text-base"><TranslatedText text={t('issue_title_label')} /></FormLabel>
                       <FormControl>
                         <Input placeholder={t('issue_title_placeholder')} {...field} />
                       </FormControl>
@@ -283,7 +283,7 @@ export function ReportIssueDialog({
                   name="description"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-base">{t('description_label')}</FormLabel>
+                      <FormLabel className="text-base"><TranslatedText text={t('description_label')} /></FormLabel>
                       <FormControl>
                         <Textarea
                           placeholder={t('description_placeholder')}
@@ -306,20 +306,20 @@ export function ReportIssueDialog({
                 </div>
                 <h3 className="font-bold text-lg">{form.getValues('title')}</h3>
                 <p className="text-sm text-muted-foreground">{form.getValues('description')}</p>
-                <p className="text-sm"><strong>{t('department')}:</strong> <TranslatedText text={form.getValues('department')} /></p>
-                <p className="text-sm"><strong>{t('review_location_prefix')}:</strong> Lat: {form.getValues('latitude').toFixed(4)}, Lng: {form.getValues('longitude').toFixed(4)}</p>
+                <p className="text-sm"><strong><TranslatedText text={t('department')} />:</strong> <TranslatedText text={form.getValues('department')} /></p>
+                <p className="text-sm"><strong><TranslatedText text={t('review_location_prefix')} />:</strong> Lat: {form.getValues('latitude').toFixed(4)}, Lng: {form.getValues('longitude').toFixed(4)}</p>
               </div>
             )}
 
             <DialogFooter>
                 {currentStep > 1 && currentStep < 5 && (
                     <Button type="button" onClick={() => setCurrentStep(prev => prev + 1)} className="w-full" size="lg" disabled={isAnalyzing}>
-                      {t('next')}
+                      <TranslatedText text={t('next')} />
                     </Button>
                 )}
                 {currentStep === 5 && (
                     <Button type="submit" className="w-full" size="lg" disabled={isAnalyzing}>
-                      {t('submit_issue')}
+                      <TranslatedText text={t('submit_issue')} />
                     </Button>
                 )}
             </DialogFooter>
@@ -360,13 +360,13 @@ function FileUpload({ onMediaProvided }: { onMediaProvided: (dataUri: string) =>
       {isProcessing ? (
          <div className="flex flex-col items-center gap-2 text-center text-muted-foreground">
             <Loader2 className="h-10 w-10 animate-spin" />
-            <span className="font-medium">{t('processing')}</span>
+            <span className="font-medium"><TranslatedText text={t('processing')} /></span>
           </div>
       ) : (
         <div className="flex flex-col items-center gap-2 text-center text-muted-foreground">
           <Upload className="h-10 w-10" />
-          <span className="font-medium">{t('upload_media_button')}</span>
-          <span className="text-xs">{t('upload_media_desc')}</span>
+          <span className="font-medium"><TranslatedText text={t('upload_media_button')} /></span>
+          <span className="text-xs"><TranslatedText text={t('upload_media_desc')} /></span>
         </div>
       )}
     </div>

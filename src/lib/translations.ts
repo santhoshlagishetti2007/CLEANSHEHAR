@@ -41,8 +41,8 @@ export const translationsData = {
     department_label: "Relevant Department",
     department_placeholder: "Select a department",
     upload_media_label: "Upload Photo/Video",
-    upload_media_button: "Choose file",
-    ai_suggestion: "AI Suggestion",
+    upload_media_button: "Choose file or drag here",
+    ai_suggestion: "Our AI will suggest a department based on your media.",
     analyzing_media: "Analyzing media with AI...",
     submit_issue: "Submit Issue",
     auth_required_title: "Authentication Required",
@@ -78,8 +78,7 @@ export const translationsData = {
 
     // Landing Page
     proudly_indian: "Proudly 🇮🇳",
-    hero_title_voice: "Your Voice",
-    hero_title_city: "Your City",
+    hero_title_voice: "Your Voice, Your City",
     hero_subtitle: "Report civic issues, connect with your community, and engage directly with government officials. Building cleaner, better cities together.",
     hero_button_report: "Report an Issue",
     hero_button_join: "Join Community",
@@ -131,8 +130,8 @@ export const translationsData = {
     upload_file: "Upload File",
     use_camera: "Use Camera",
     processing: "Processing...",
-    upload_media_desc: "PNG, JPG up to 10MB",
-    ai_suggestion_complete: "AI Suggestion Complete",
+    upload_media_desc: "PNG, JPG, MP4 up to 10MB",
+    ai_suggestion_complete: "AI Suggestion Complete!",
     ai_suggestion_desc: "We've suggested the {department}.",
     ai_suggestion_failed: "AI Analysis Failed",
     ai_suggestion_failed_desc: "Could not analyze the media. Please select a department manually.",
@@ -148,6 +147,7 @@ export const translationsData = {
     review_location_prefix: "Location",
     issue_reported_toast_title: "Issue Reported!",
     issue_reported_toast_desc: "Thank you for helping improve your community.",
+    user_pinned_location: "User-pinned location",
 
     // Support Dialog
     support_center_title: "Support Center",
@@ -199,8 +199,8 @@ export const translationsData = {
     department_label: "संबंधित विभाग",
     department_placeholder: "एक विभाग चुनें",
     upload_media_label: "फोटो/वीडियो अपलोड करें",
-    upload_media_button: "फ़ाइल चुनें",
-    ai_suggestion: "एआई सुझाव",
+    upload_media_button: "फ़ाइल चुनें या यहां खींचें",
+    ai_suggestion: "हमारा AI आपके मीडिया के आधार पर एक विभाग का सुझाव देगा।",
     analyzing_media: "एआई के साथ मीडिया का विश्लेषण किया जा रहा है...",
     submit_issue: "मुद्दा सबमिट करें",
     auth_required_title: "प्रमाणीकरण आवश्यक",
@@ -235,8 +235,7 @@ export const translationsData = {
 
     // Landing Page
     proudly_indian: "गर्व से 🇮🇳",
-    hero_title_voice: "आपकी आवाज",
-    hero_title_city: "आपका शहर",
+    hero_title_voice: "आपकी आवाज, आपका शहर",
     hero_subtitle: "नागरिक मुद्दों की रिपोर्ट करें, अपने समुदाय से जुड़ें, और सीधे सरकारी अधिकारियों से जुड़ें। साथ मिलकर स्वच्छ, बेहतर शहर बनाना।",
     hero_button_report: "एक मुद्दा रिपोर्ट करें",
     hero_button_join: "समुदाय में शामिल हों",
@@ -286,10 +285,10 @@ export const translationsData = {
     step_details: "विवरण",
     step_review: "समीक्षा",
     upload_file: "फ़ाइल अपलोड करें",
-    use_camera: "कैमरा का उपयोग करें",
+use_camera: "कैमरा का उपयोग करें",
     processing: "संसाधित हो रहा है...",
-    upload_media_desc: "पीएनजी, जेपीजी 10MB तक",
-    ai_suggestion_complete: "एआई सुझाव पूर्ण",
+    upload_media_desc: "पीएनजी, जेपीजी, एमपी4 10MB तक",
+    ai_suggestion_complete: "एआई सुझाव पूर्ण!",
     ai_suggestion_desc: "हमने {department} का सुझाव दिया है।",
     ai_suggestion_failed: "एआई विश्लेषण विफल",
     ai_suggestion_failed_desc: "मीडिया का विश्लेषण नहीं हो सका। कृपया मैन्युअल रूप से एक विभाग चुनें।",
@@ -305,6 +304,7 @@ export const translationsData = {
     review_location_prefix: "स्थान",
     issue_reported_toast_title: "मुद्दा रिपोर्ट किया गया!",
     issue_reported_toast_desc: "अपने समुदाय को बेहतर बनाने में मदद करने के लिए धन्यवाद।",
+    user_pinned_location: "उपयोगकर्ता द्वारा पिन किया गया स्थान",
 
     // Support Dialog
     support_center_title: "सहायता केंद्र",
@@ -337,7 +337,10 @@ export const translationsData = {
 // Simple proxy to fill other languages with english translation for demo
 for (const lang of Object.keys(languages)) {
     if (lang !== 'en' && lang !== 'hi') {
-        translationsData[lang as keyof typeof translationsData] = { ...translationsData.en };
+        const langCode = lang as keyof typeof translationsData;
+        if (!translationsData[langCode]) {
+            translationsData[langCode] = { ...translationsData.en };
+        }
     }
 }
 

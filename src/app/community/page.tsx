@@ -76,9 +76,9 @@ export default function CommunityPage() {
       <main className="flex-1 bg-background px-4 py-8 md:px-6 lg:px-8">
         <div className="container mx-auto max-w-6xl">
           <div className="mb-8 text-center">
-            <h1 className="font-headline text-4xl font-bold">{t('community_forum_title')}</h1>
+            <h1 className="font-headline text-4xl font-bold"><TranslatedText text={t('community_forum_title')} /></h1>
             <p className="mt-2 text-muted-foreground">
-              {t('community_forum_subtitle')}
+              <TranslatedText text={t('community_forum_subtitle')} />
             </p>
           </div>
 
@@ -87,11 +87,11 @@ export default function CommunityPage() {
                 <TabsList className="grid w-full grid-cols-2 md:w-[400px]">
                   <TabsTrigger value="issues">
                     <FileText className="mr-2 h-4 w-4" />
-                    {t('civic_issues')}
+                    <TranslatedText text={t('civic_issues')} />
                   </TabsTrigger>
                   <TabsTrigger value="discussions">
                     <MessageSquare className="mr-2 h-4 w-4" />
-                    {t('general_discussions')}
+                    <TranslatedText text={t('general_discussions')} />
                   </TabsTrigger>
                 </TabsList>
             </div>
@@ -99,7 +99,7 @@ export default function CommunityPage() {
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {issues.map(issue => (
                   <Link key={issue.id} href={`/issues/${issue.id}`} passHref>
-                    <IssueCard issue={issue} />
+                    <a><IssueCard issue={issue} /></a>
                   </Link>
                 ))}
               </div>
@@ -107,7 +107,7 @@ export default function CommunityPage() {
             <TabsContent value="discussions" className="mt-6 max-w-3xl mx-auto">
                <Card className="mb-8">
                 <CardHeader>
-                  <h2 className="text-xl font-semibold font-headline">{t('create_new_post')}</h2>
+                  <h2 className="text-xl font-semibold font-headline"><TranslatedText text={t('create_new_post')} /></h2>
                 </CardHeader>
                 <CardContent>
                   <div className="grid w-full gap-2">
@@ -116,7 +116,7 @@ export default function CommunityPage() {
                       value={newPostContent}
                       onChange={(e) => setNewPostContent(e.target.value)}
                     />
-                    <Button onClick={handleCreatePost}>{t('post_to_forum')}</Button>
+                    <Button onClick={handleCreatePost}><TranslatedText text={t('post_to_forum')} /></Button>
                   </div>
                 </CardContent>
               </Card>
@@ -144,7 +144,7 @@ export default function CommunityPage() {
                       </p>
                     </CardContent>
                     <CardFooter className="flex-col items-start gap-4">
-                      <h3 className="text-sm font-semibold">{t('comments')}</h3>
+                      <h3 className="text-sm font-semibold"><TranslatedText text={t('comments')} /></h3>
                       {post.comments.map(comment => (
                         <div key={comment.id} className="flex items-start gap-3 text-sm">
                             <Avatar className="h-8 w-8">
@@ -167,7 +167,7 @@ export default function CommunityPage() {
                             </AvatarFallback>
                         </Avatar>
                         <Textarea placeholder={t('write_a_comment')} className="min-h-[40px] flex-1 text-sm" />
-                        <Button size="sm">{t('reply')}</Button>
+                        <Button size="sm"><TranslatedText text={t('reply')} /></Button>
                       </div>
                     </CardFooter>
                   </Card>

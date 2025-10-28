@@ -34,7 +34,7 @@ function IssueStatusBadge({ status, t }: { status: Issue['status'], t: (key: any
     Resolved: t('resolved'),
   };
 
-  return <Badge variant={statusVariant[status]}>{statusText[status]}</Badge>;
+  return <Badge variant={statusVariant[status]}><TranslatedText text={statusText[status]} /></Badge>;
 }
 
 export default function IssueDetailPage({ params }: { params: { id: string } }) {
@@ -77,7 +77,7 @@ export default function IssueDetailPage({ params }: { params: { id: string } }) 
             <Link href="/community" passHref>
               <Button variant="ghost">
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                {t('back_to_community')}
+                <TranslatedText text={t('back_to_community')} />
               </Button>
             </Link>
           </div>
@@ -109,7 +109,7 @@ export default function IssueDetailPage({ params }: { params: { id: string } }) 
               <Card className="mt-8">
                 <CardHeader>
                   <CardTitle className="font-headline text-xl">
-                    {t('community_discussion')}
+                    <TranslatedText text={t('community_discussion')} />
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -127,7 +127,7 @@ export default function IssueDetailPage({ params }: { params: { id: string } }) 
                             <p className="font-semibold">
                               <TranslatedText text={comment.author.name} />
                               {comment.isOfficialReply && (
-                                <Badge variant="default" className="ml-2">{t('official_reply')}</Badge>
+                                <Badge variant="default" className="ml-2"><TranslatedText text={t('official_reply')} /></Badge>
                               )}
                             </p>
                             <p className="text-xs text-muted-foreground">
@@ -151,7 +151,7 @@ export default function IssueDetailPage({ params }: { params: { id: string } }) 
                       placeholder={t('add_comment_placeholder')}
                     />
                     <Button onClick={handlePostComment}>
-                      {t('post_comment')}
+                      <TranslatedText text={t('post_comment')} />
                     </Button>
                   </div>
                 </CardContent>
@@ -162,24 +162,24 @@ export default function IssueDetailPage({ params }: { params: { id: string } }) 
               <Card>
                 <CardHeader>
                   <CardTitle className="font-headline text-xl">
-                    {t('issue_details')}
+                    <TranslatedText text={t('issue_details')} />
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4 text-sm">
                   <div className="flex items-center">
-                    <div className="w-24 font-semibold text-muted-foreground">{t('status')}</div>
+                    <div className="w-24 font-semibold text-muted-foreground"><TranslatedText text={t('status')} /></div>
                     <IssueStatusBadge status={issue.status} t={t} />
                   </div>
                   <div className="flex items-start">
-                    <div className="w-24 font-semibold text-muted-foreground">{t('department')}</div>
+                    <div className="w-24 font-semibold text-muted-foreground"><TranslatedText text={t('department')} /></div>
                     <span><TranslatedText text={issue.department} /></span>
                   </div>
                   <div className="flex items-start">
-                    <div className="w-24 font-semibold text-muted-foreground">{t('location')}</div>
+                    <div className="w-24 font-semibold text-muted-foreground"><TranslatedText text={t('location')} /></div>
                     <span><TranslatedText text={issue.location.address} /></span>
                   </div>
                   <div className="flex items-start">
-                    <div className="w-24 font-semibold text-muted-foreground">{t('reported_by')}</div>
+                    <div className="w-24 font-semibold text-muted-foreground"><TranslatedText text={t('reported_by')} /></div>
                     <div className="flex items-center gap-2">
                        <Avatar className="h-6 w-6">
                          <AvatarImage src={issue.author.avatar} />
@@ -189,11 +189,11 @@ export default function IssueDetailPage({ params }: { params: { id: string } }) 
                     </div>
                   </div>
                    <div className="flex items-start">
-                    <div className="w-24 font-semibold text-muted-foreground">{t('upvotes')}</div>
+                    <div className="w-24 font-semibold text-muted-foreground"><TranslatedText text={t('upvotes')} /></div>
                     <span>{issue.upvotes}</span>
                   </div>
                    <div className="flex items-start">
-                    <div className="w-24 font-semibold text-muted-foreground">{t('comments')}</div>
+                    <div className="w-24 font-semibold text-muted-foreground"><TranslatedText text={t('comments')} /></div>
                     <span>{comments.length}</span>
                   </div>
                 </CardContent>
