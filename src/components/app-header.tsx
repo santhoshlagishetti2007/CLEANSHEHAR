@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from "react";
@@ -6,7 +7,6 @@ import { LayoutDashboard, LifeBuoy, LogOut, UserCircle, PenSquare, Map, Users } 
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/icons";
 import { LanguageSelector } from "./language-selector";
-import { SupportChatDialog } from "./support-chat-dialog";
 import { useLanguage } from "@/hooks/use-language";
 import { useAuth } from "@/contexts/auth-context";
 import {
@@ -62,12 +62,12 @@ export function AppHeader() {
                 Community
               </Button>
             </Link>
-          <SupportChatDialog>
+          <Link href="/support" passHref>
             <Button variant="ghost" size="sm">
               <LifeBuoy className="mr-2 h-4 w-4" />
               {t("support")}
             </Button>
-          </SupportChatDialog>
+          </Link>
           <LanguageSelector />
           {isUserLoading ? null : user ? (
             <DropdownMenu>

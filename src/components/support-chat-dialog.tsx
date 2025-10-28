@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -15,14 +16,20 @@ import { Input } from "@/components/ui/input";
 import { useLanguage } from "@/hooks/use-language";
 import { aiHelpSupport } from "@/ai/flows/ai-help-support";
 import { ScrollArea } from "./ui/scroll-area";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Avatar, AvatarFallback } from "./ui/avatar";
 
 interface Message {
   text: string;
   isUser: boolean;
 }
 
-export function SupportChatDialog({ children }: { children: React.ReactNode }) {
+interface SupportChatDialogProps {
+    children: React.ReactNode;
+    open?: boolean;
+    onOpenChange?: (open: boolean) => void;
+}
+
+export function SupportChatDialog({ children, open, onOpenChange }: SupportChatDialogProps) {
   const { t } = useLanguage();
   const [query, setQuery] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
@@ -53,7 +60,7 @@ export function SupportChatDialog({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
