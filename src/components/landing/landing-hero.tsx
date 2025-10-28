@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -5,8 +6,10 @@ import Link from 'next/link';
 import { Logo } from '@/components/icons';
 import Image from 'next/image';
 import placeholderImages from '@/lib/placeholder-images.json';
+import { useLanguage } from '@/hooks/use-language';
 
 export function LandingHero() {
+  const { t } = useLanguage();
   const heroImage = placeholderImages.placeholderImages.find(p => p.id === 'landing-hero-doodle');
   return (
     <section className="bg-card py-20 px-4">
@@ -16,20 +19,19 @@ export function LandingHero() {
         </div>
         <p className="mt-4 text-base text-muted-foreground">proudly 🇮🇳</p>
         <h1 className="mt-4 font-headline text-5xl font-bold">
-          <span className="text-primary">Your Voice</span>,{' '}
-          <span className="text-accent">Your City</span>
+          <span className="text-primary">{t('hero_title_voice')}</span>,{' '}
+          <span className="text-accent">{t('hero_title_city')}</span>
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-          Report civic issues, connect with your community, and engage directly
-          with government officials. Building cleaner, better cities together.
+          {t('hero_subtitle')}
         </p>
         <div className="mt-8 flex flex-col gap-4 sm:flex-row">
           <Link href="/community" passHref>
-            <Button size="lg">Report an Issue</Button>
+            <Button size="lg">{t('hero_button_report')}</Button>
           </Link>
           <Link href="/community" passHref>
             <Button size="lg" variant="outline">
-              Join Community
+              {t('hero_button_join')}
             </Button>
           </Link>
         </div>

@@ -1,38 +1,41 @@
+
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useLanguage } from '@/hooks/use-language';
 import { FileText, MapPin, MessageCircle, Users } from 'lucide-react';
 
-const features = [
-    {
-        icon: <FileText className="h-8 w-8 text-primary" />,
-        title: 'Report Issues',
-        description: 'Upload photos/videos of civic problems, with AI-powered department distinction.'
-    },
-    {
-        icon: <MapPin className="h-8 w-8 text-primary" />,
-        title: 'Location Tracking',
-        description: 'Pin exact locations on a map with route markings for travelers.'
-    },
-    {
-        icon: <MessageCircle className="h-8 w-8 text-primary" />,
-        title: 'Community Chat',
-        description: 'Connect with neighbors in real-time with automatic translation.'
-    },
-    {
-        icon: <Users className="h-8 w-8 text-primary" />,
-        title: 'Direct to Officials',
-        description: 'Issues are routed directly to relevant government departments.'
-    }
-]
-
 export function HowItWorks() {
+  const { t } = useLanguage();
+  
+  const features = [
+      {
+          icon: <FileText className="h-8 w-8 text-primary" />,
+          title: t('feature_report_title'),
+          description: t('feature_report_desc')
+      },
+      {
+          icon: <MapPin className="h-8 w-8 text-primary" />,
+          title: t('feature_location_title'),
+          description: t('feature_location_desc')
+      },
+      {
+          icon: <MessageCircle className="h-8 w-8 text-primary" />,
+          title: t('feature_chat_title'),
+          description: t('feature_chat_desc')
+      },
+      {
+          icon: <Users className="h-8 w-8 text-primary" />,
+          title: t('feature_officials_title'),
+          description: t('feature_officials_desc')
+      }
+  ]
   return (
     <section className="py-20 px-4">
         <div className="container mx-auto max-w-6xl">
             <div className="text-center">
-                <h2 className="font-headline text-4xl font-bold">How <span className="text-primary">Clear</span><span className="text-accent">शहर</span> Works</h2>
-                <p className="mt-2 text-muted-foreground">A complete platform for civic engagement with multilingual support</p>
+                <h2 className="font-headline text-4xl font-bold">{t('how_it_works_title')}</h2>
+                <p className="mt-2 text-muted-foreground">{t('how_it_works_subtitle')}</p>
             </div>
             <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
                 {features.map((feature, index) => (
