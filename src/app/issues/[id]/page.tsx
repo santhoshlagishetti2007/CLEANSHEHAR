@@ -1,3 +1,4 @@
+
 'use client'
 
 import { useState } from 'react';
@@ -74,10 +75,10 @@ export default function IssueDetailPage({ params }: { params: { id: string } }) 
       <main className="flex-1 bg-background px-4 py-8 md:px-6 lg:px-8">
         <div className="container mx-auto max-w-4xl">
           <div className="mb-6">
-            <Link href="/issues" passHref>
+            <Link href="/community" passHref>
               <Button variant="ghost">
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                {t('back_to_all_issues')}
+                {t('back_to_community')}
               </Button>
             </Link>
           </div>

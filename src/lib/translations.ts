@@ -1,3 +1,4 @@
+
 export const languages = {
   en: { name: "English", flag: "🇬🇧" },
   hi: { name: "हिंदी", flag: "🇮🇳" },
@@ -72,7 +73,7 @@ export const translationsData = {
     whats_on_your_mind: "What's on your mind?",
     write_a_comment: "Write a comment...",
     reply: "Reply",
-    back_to_all_issues: "Back to all issues",
+    back_to_community: "Back to Community",
     profile: "Profile",
   },
   hi: {
@@ -130,7 +131,7 @@ export const translationsData = {
     whats_on_your_mind: "आपके मन में क्या है?",
     write_a_comment: "एक टिप्पणी लिखें...",
     reply: "जवाब दें",
-    back_to_all_issues: "सभी मुद्दों पर वापस जाएं",
+    back_to_community: "समुदाय पर वापस जाएं",
     profile: "प्रोफ़ाइल",
   },
 };
