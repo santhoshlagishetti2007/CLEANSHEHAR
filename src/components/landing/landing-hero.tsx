@@ -11,7 +11,9 @@ export function LandingHero() {
   return (
     <section className="bg-card py-20 px-4">
       <div className="container mx-auto flex max-w-4xl flex-col items-center text-center">
-        <Logo />
+        <div className="scale-125">
+          <Logo />
+        </div>
         <p className="mt-4 text-sm text-muted-foreground">proudly 🇮🇳</p>
         <h1 className="mt-4 font-headline text-5xl font-bold">
           <span className="text-primary">Your Voice</span>,{' '}
@@ -29,17 +31,6 @@ export function LandingHero() {
             Join Community
           </Button>
         </div>
-        {heroImage && (
-            <div className="relative mt-12 h-64 w-full max-w-2xl">
-                <Image
-                src={heroImage.imageUrl}
-                alt={heroImage.description}
-                fill
-                className="object-contain"
-                data-ai-hint={heroImage.imageHint}
-                />
-            </div>
-        )}
       </div>
     </section>
   );

@@ -1,18 +1,16 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
-import { Map, Pin } from 'lucide-react';
+import { MapIcon, List } from 'lucide-react';
 import { AppHeader } from '@/components/app-header';
 import { IssueCard } from '@/components/issue-card';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useLanguage } from '@/hooks/use-language';
 import { issues as initialIssues, Issue } from '@/lib/data';
 import { ReportIssueDialog } from '@/components/report-issue-dialog';
-import placeholderImages from '@/lib/placeholder-images.json';
 import Link from 'next/link';
+import { MapView } from '@/components/map-view';
 
 export default function IssuesPage() {
   const { t } = useLanguage();
@@ -22,8 +20,6 @@ export default function IssuesPage() {
   const handleIssueReported = (newIssue: Issue) => {
     setIssues(prevIssues => [newIssue, ...prevIssues]);
   };
-
-  const mapImage = placeholderImages.placeholderImages.find(p => p.id === "map-background");
 
   return (
     <div className="flex min-h-screen w-full flex-col">
@@ -51,11 +47,11 @@ export default function IssuesPage() {
           <Tabs defaultValue="list" className="w-full">
             <TabsList className="grid w-full grid-cols-2 md:w-[400px]">
               <TabsTrigger value="list">
-                <Pin className="mr-2 h-4 w-4" />
+                <List className="mr-2 h-4 w-4" />
                 {t('list_view')}
               </TabsTrigger>
               <TabsTrigger value="map">
-                <Map className="mr-2 h-4 w-4" />
+                <MapIcon className="mr-2 h-4 w-4" />
                 {t('map_view')}
               </TabsTrigger>
             </TabsList>
@@ -69,39 +65,7 @@ export default function IssuesPage() {
               </div>
             </TabsContent>
             <TabsContent value="map" className="mt-6">
-              <Card>
-                <CardContent className="p-0">
-                  <div className="relative aspect-[16/9] w-full">
-                    {mapImage && (
-                       <Image
-                        src={mapImage.imageUrl}
-                        alt="Map of the city"
-                        fill
-                        className="object-cover rounded-lg"
-                        data-ai-hint={mapImage.imageHint}
-                      />
-                    )}
-                    {issues.map(issue => (
-                      <div
-                        key={`map-${issue.id}`}
-                        className="absolute"
-                        style={{
-                          left: `${issue.location.mapCoordinates.x}%`,
-                          top: `${issue.location.mapCoordinates.y}%`,
-                        }}
-                      >
-                        <div className="group">
-                          <Pin className="h-8 w-8 text-primary drop-shadow-lg transition-transform group-hover:scale-110" fill="hsl(var(--primary))" />
-                          <div className="absolute bottom-full mb-2 hidden w-48 rounded-md bg-popover p-2 text-sm text-popover-foreground shadow-md group-hover:block">
-                            <p className="font-bold">{issue.title}</p>
-                            <p className="text-xs text-muted-foreground">{issue.department}</p>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+              <MapView issues={issues} />
             </TabsContent>
           </Tabs>
         </div>
