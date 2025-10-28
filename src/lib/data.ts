@@ -4,7 +4,7 @@ import placeholderImages from "./placeholder-images.json";
 
 const allImages = placeholderImages.placeholderImages;
 
-const users: { [key: string]: User } = {
+export const users: { [key: string]: User } = {
   ananya: {
     id: "user-1",
     name: "Ananya Sharma",
