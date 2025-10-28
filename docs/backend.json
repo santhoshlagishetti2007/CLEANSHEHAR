@@ -1,0 +1,279 @@
+{
+  "entities": {
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents a user of the Clearशहर platform.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the user."
+        },
+        "username": {
+          "type": "string",
+          "description": "User's username for login and display purposes."
+        },
+        "email": {
+          "type": "string",
+          "description": "User's email address.",
+          "format": "email"
+        },
+        "preferredLanguage": {
+          "type": "string",
+          "description": "User's preferred language for the website and translations (e.g., 'en', 'hi')."
+        }
+      },
+      "required": [
+        "id",
+        "username",
+        "email",
+        "preferredLanguage"
+      ]
+    },
+    "IssueReport": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "IssueReport",
+      "type": "object",
+      "description": "Represents a civic issue reported by a user.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the issue report."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N IssueReport)"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the issue report."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the issue."
+        },
+        "department": {
+          "type": "string",
+          "description": "Department to which the issue belongs."
+        },
+        "location": {
+          "type": "string",
+          "description": "Geographical location of the issue (e.g., latitude, longitude)."
+        },
+        "mediaUrls": {
+          "type": "array",
+          "description": "URLs of images or videos attached to the report.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp of when the issue report was created.",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "description": "The status of the report (e.g., 'open', 'in progress', 'resolved')."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "title",
+        "description",
+        "department",
+        "location",
+        "mediaUrls",
+        "createdAt",
+        "status"
+      ]
+    },
+    "CommunityPost": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "CommunityPost",
+      "type": "object",
+      "description": "Represents a post within the community forum.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the community post."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N CommunityPost)"
+        },
+        "content": {
+          "type": "string",
+          "description": "Content of the community post."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp of when the community post was created.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "content",
+        "createdAt"
+      ]
+    },
+    "Official": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Official",
+      "type": "object",
+      "description": "Represents a government official.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the government official."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the government official."
+        },
+        "department": {
+          "type": "string",
+          "description": "Department to which the official belongs."
+        },
+        "contactInformation": {
+          "type": "string",
+          "description": "Contact information for the official (e.g., email, phone number)."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "department",
+        "contactInformation"
+      ]
+    },
+    "IssueReportOfficial": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "IssueReportOfficial",
+      "type": "object",
+      "description": "Links an IssueReport to an Official",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the IssueReportOfficial entry."
+        },
+        "issueReportId": {
+          "type": "string",
+          "description": "Reference to IssueReport. (Relationship: IssueReport N:N Official)"
+        },
+        "officialId": {
+          "type": "string",
+          "description": "Reference to Official. (Relationship: IssueReport N:N Official)"
+        }
+      },
+      "required": [
+        "id",
+        "issueReportId",
+        "officialId"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Stores user profile data. Path-based ownership.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/issueReports/{issueReportId}",
+        "definition": {
+          "entityName": "IssueReport",
+          "schema": {
+            "$ref": "#/backend/entities/IssueReport"
+          },
+          "description": "Stores issue reports created by a specific user. Path-based ownership; implicit denormalization of userId.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            },
+            {
+              "name": "issueReportId",
+              "description": "The unique identifier for the issue report."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/communityPosts/{communityPostId}",
+        "definition": {
+          "entityName": "CommunityPost",
+          "schema": {
+            "$ref": "#/backend/entities/CommunityPost"
+          },
+          "description": "Stores community posts created by a specific user. Path-based ownership; implicit denormalization of userId.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            },
+            {
+              "name": "communityPostId",
+              "description": "The unique identifier for the community post."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/officials/{officialId}",
+        "definition": {
+          "entityName": "Official",
+          "schema": {
+            "$ref": "#/backend/entities/Official"
+          },
+          "description": "Stores government official data. Publicly readable, but only admins can create/update/delete.",
+          "params": [
+            {
+              "name": "officialId",
+              "description": "The unique identifier for the government official."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/issueReportOfficials/{issueReportOfficialId}",
+        "definition": {
+          "entityName": "IssueReportOfficial",
+          "schema": {
+            "$ref": "#/backend/entities/IssueReportOfficial"
+          },
+          "description": "Stores links between issue reports and officials.  Facilitates queries to find officials associated with an issue, and vice versa. Publicly readable, but only admins can create/update/delete.",
+          "params": [
+            {
+              "name": "issueReportOfficialId",
+              "description": "The unique identifier for the IssueReportOfficial entry."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure is designed to support Clearशहर's core features, emphasizing security, scalability, and debuggability. The structure prioritizes authorization independence through denormalization and structural segregation. Path-based ownership is used for user-owned data, while a membership map is employed for collaborative scenarios, if they arise in future requirements. The structure supports listing operations and enforces invariants like ownership and timestamps.\n\n**Authorization Independence and QAPs**:\n\n*   **Issue Reports:** The `issueReports` subcollection under `/users/{userId}` ensures that each issue report is owned by a specific user. The `userId` is implicitly denormalized because the path establishes ownership. Listing operations are secured since rules can easily verify that the authenticated user is attempting to access their own issue reports.\n*   **Community Posts:** Similar to issue reports, `communityPosts` are stored under `/users/{userId}`, ensuring clear ownership and authorization independence. Listing is secure as rules can enforce access only to the posts of the authenticated user.\n\nThis design avoids `get()` calls in security rules, making the rules simpler, more robust, and easier to debug. It also allows for atomic operations (transactions/batches) when creating or updating related documents.\n\n**Future Considerations:**\n\n*   If collaborative features are introduced (e.g., multiple users working on an issue report), a `members` map can be added to the issue report document, listing users with their roles, and enabling more complex authorization rules without relying on `get()` calls."
+  }
+}

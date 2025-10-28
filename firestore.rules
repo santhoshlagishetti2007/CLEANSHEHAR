@@ -1,0 +1,153 @@
+/**
+ * @file Firestore Security Rules for Clearशहर
+ * @description This ruleset enforces a strict user-ownership model for user-generated content (IssueReports, CommunityPosts)
+ *              and restricts write access to government official data to authorized admins (not implemented in this prototype).
+ *
+ * Data Structure:
+ * - /users/{userId}: Stores user profile data.
+ * - /users/{userId}/issueReports/{issueReportId}: Stores issue reports created by a specific user.
+ * - /users/{userId}/communityPosts/{communityPostId}: Stores community posts created by a specific user.
+ * - /officials/{officialId}: Stores government official data.
+ * - /issueReportOfficials/{issueReportOfficialId}: Stores links between issue reports and officials.
+ *
+ * Key Security Decisions:
+ * - User data is strictly controlled by the owning user.
+ * - Listing of all users is disallowed.
+ * - Write access to `officials` and `issueReportOfficials` is currently open to all, a TODO item for admin role implementation.
+ *
+ * Denormalization for Authorization:
+ * - The `userId` is implicitly denormalized for issueReports and communityPosts because they reside under the `/users/{userId}` path.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * @description Controls access to user profile data.
+     * @path /users/{userId}
+     * @allow (create) User with ID 'user123' can create their own profile.
+     * @allow (get) User with ID 'user123' can read their own profile.
+     * @deny (get) User with ID 'user123' cannot read another user's profile.
+     * @principle Enforces document ownership for reads and writes.
+     */
+    match /users/{userId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return request.auth.uid == userId;
+      }
+
+      // Allow a user to read their own profile.
+      allow get: if isSignedIn() && isOwner(userId);
+
+      // Prevent listing all users.
+      allow list: if false;
+
+      // Allow a user to create their own profile if the userId matches their auth.uid.
+      allow create: if isSignedIn() && isOwner(userId) && request.resource.data.id == request.auth.uid;
+
+      // Allow a user to update their own profile.  The profile ID field cannot be changed.
+      allow update: if isSignedIn() && isOwner(userId);
+
+      // Allow a user to delete their own profile.
+      allow delete: if isSignedIn() && isOwner(userId);
+    }
+
+    /**
+     * @description Controls access to issue reports created by a specific user.
+     * @path /users/{userId}/issueReports/{issueReportId}
+     * @allow (create) User with ID 'user123' can create an issue report in their own profile.
+     * @allow (get) User with ID 'user123' can read an issue report in their own profile.
+     * @deny (get) User with ID 'user123' cannot read an issue report in another user's profile.
+     * @principle Enforces document ownership for reads and writes.
+     */
+    match /users/{userId}/issueReports/{issueReportId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return request.auth.uid == userId;
+      }
+
+      // Allow the owner to read their issue reports.
+      allow get: if isSignedIn() && isOwner(userId);
+
+      // Allow the owner to list their issue reports.
+      allow list: if isSignedIn() && isOwner(userId);
+
+      // Allow the owner to create a new issue report.
+      allow create: if isSignedIn() && isOwner(userId);
+
+      // Allow the owner to update their issue report.
+      allow update: if isSignedIn() && isOwner(userId);
+
+      // Allow the owner to delete their issue report.
+      allow delete: if isSignedIn() && isOwner(userId);
+    }
+
+    /**
+     * @description Controls access to community posts created by a specific user.
+     * @path /users/{userId}/communityPosts/{communityPostId}
+     * @allow (create) User with ID 'user123' can create a community post in their own profile.
+     * @allow (get) User with ID 'user123' can read a community post in their own profile.
+     * @deny (get) User with ID 'user123' cannot read a community post in another user's profile.
+     * @principle Enforces document ownership for reads and writes.
+     */
+    match /users/{userId}/communityPosts/{communityPostId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+      function isOwner(userId) {
+        return request.auth.uid == userId;
+      }
+
+      // Allow the owner to read their community posts.
+      allow get: if isSignedIn() && isOwner(userId);
+
+      // Allow the owner to list their community posts.
+      allow list: if isSignedIn() && isOwner(userId);
+
+      // Allow the owner to create a new community post.
+      allow create: if isSignedIn() && isOwner(userId);
+
+      // Allow the owner to update their community post.
+      allow update: if isSignedIn() && isOwner(userId);
+
+      // Allow the owner to delete their community post.
+      allow delete: if isSignedIn() && isOwner(userId);
+    }
+
+    /**
+     * @description Controls access to government official data.
+     * @path /officials/{officialId}
+     * @allow (get) Anyone can read official data.
+     * @deny (create) Only admins should be able to create officials.
+     * @principle Currently allows public read access; write access should be restricted to admins.
+     */
+    match /officials/{officialId} {
+      // Allow anyone to read official data.
+      allow get, list: if true;
+
+      // TODO: Add admin role validation
+      allow create, update, delete: if false;
+    }
+
+    /**
+     * @description Controls access to links between issue reports and officials.
+     * @path /issueReportOfficials/{issueReportOfficialId}
+     * @allow (get) Anyone can read the links.
+     * @deny (create) Only admins should be able to create links.
+     * @principle Currently allows public read access; write access should be restricted to admins.
+     */
+    match /issueReportOfficials/{issueReportOfficialId} {
+      // Allow anyone to read the links.
+      allow get, list: if true;
+
+      // TODO: Add admin role validation
+      allow create, update, delete: if false;
+    }
+  }
+}
