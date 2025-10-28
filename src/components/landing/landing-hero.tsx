@@ -13,7 +13,7 @@ export function LandingHero() {
       <div className="container mx-auto grid max-w-6xl grid-cols-1 items-center gap-8 md:grid-cols-2">
         <div>
           <h1 className="font-headline text-5xl font-bold">
-            Your Voice, <span className="text-accent">Your City</span>
+            <span className="text-primary">Your Voice</span>, <span className="text-accent">Your City</span>
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">
             Report civic issues, connect with your community, and engage directly with government officials. Building cleaner, better cities together.
