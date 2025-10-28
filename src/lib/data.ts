@@ -1,3 +1,4 @@
+
 import type { Issue, User, Comment } from "./types";
 import placeholderImages from "./placeholder-images.json";
 
@@ -29,6 +30,7 @@ const users: { [key: string]: User } = {
     name: "Mr. Gupta (PWD Official)",
     avatar:
       allImages.find((img) => img.id === "avatar-official")?.imageUrl || "",
+    isOfficial: true,
   },
 };
 

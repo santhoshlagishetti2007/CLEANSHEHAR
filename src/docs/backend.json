@@ -23,6 +23,10 @@
         "preferredLanguage": {
           "type": "string",
           "description": "User's preferred language for the website and translations (e.g., 'en', 'hi')."
+        },
+        "isOfficial": {
+          "type": "boolean",
+          "description": "Indicates if the user is a government official."
         }
       },
       "required": [
