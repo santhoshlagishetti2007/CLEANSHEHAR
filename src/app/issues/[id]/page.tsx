@@ -38,7 +38,7 @@ function IssueStatusBadge({ status, t }: { status: Issue['status'], t: (key: any
 }
 
 export default function IssueDetailPage({ params }: { params: { id: string } }) {
-  const resolvedParams = use(Promise.resolve(params));
+  const resolvedParams = use(params);
   const { t } = useLanguage();
   const { user, isAuthenticated, openAuthModal } = useAuth();
   
