@@ -35,7 +35,6 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { AuthModal } from "./auth-modal";
 import { aiCategorizeIssue } from "@/ai/flows/ai-categorize-issue";
 import { Progress } from "./ui/progress";
 import { CameraView } from "./camera-view";
@@ -44,6 +43,7 @@ interface ReportIssueDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onIssueReported: (issue: Issue) => void;
+  children?: React.ReactNode;
 }
 
 const formSchema = z.object({
@@ -61,11 +61,11 @@ export function ReportIssueDialog({
   open,
   onOpenChange,
   onIssueReported,
+  children,
 }: ReportIssueDialogProps) {
   const { t } = useLanguage();
   const { toast } = useToast();
-  const { user, isAuthenticated } = useAuth();
-  const [isAuthModalOpen, setAuthModalOpen] = useState(false);
+  const { user, isAuthenticated, openAuthModal } = useAuth();
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [mediaSource, setMediaSource] = useState<"upload" | "camera" | null>(null);
@@ -125,7 +125,7 @@ export function ReportIssueDialog({
 
   function onSubmit(values: FormData) {
     if (!isAuthenticated || !user) {
-      setAuthModalOpen(true);
+      openAuthModal();
       return;
     }
 
@@ -168,6 +168,7 @@ export function ReportIssueDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
+      {children}
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-3xl">
         <DialogHeader>
           <div className="flex items-center gap-4">
@@ -305,7 +306,6 @@ export function ReportIssueDialog({
             </DialogFooter>
           </form>
         </Form>
-        <AuthModal open={isAuthModalOpen} onOpenChange={setAuthModalOpen} />
       </DialogContent>
     </Dialog>
   );

@@ -19,7 +19,6 @@ import { useAuth } from '@/contexts/auth-context';
 import { useLanguage } from '@/hooks/use-language';
 import { issues, Issue, Comment } from '@/lib/data';
 import { notFound } from 'next/navigation';
-import { AuthModal } from '@/components/auth-modal';
 import { TranslatedText } from '@/components/translated-text';
 
 function IssueStatusBadge({ status, t }: { status: Issue['status'], t: (key: any) => string }) {
@@ -40,8 +39,7 @@ function IssueStatusBadge({ status, t }: { status: Issue['status'], t: (key: any
 
 export default function IssueDetailPage({ params }: { params: { id: string } }) {
   const { t } = useLanguage();
-  const { user, isAuthenticated } = useAuth();
-  const [isAuthModalOpen, setAuthModalOpen] = useState(false);
+  const { user, isAuthenticated, openAuthModal } = useAuth();
   
   const issue = issues.find(i => i.id === params.id);
   const [comments, setComments] = useState<Comment[]>(issue?.comments || []);
@@ -53,7 +51,7 @@ export default function IssueDetailPage({ params }: { params: { id: string } }) 
 
   const handlePostComment = () => {
     if (!isAuthenticated) {
-        setAuthModalOpen(true);
+        openAuthModal();
         return;
     }
     if (newComment.trim() && user) {
@@ -203,7 +201,6 @@ export default function IssueDetailPage({ params }: { params: { id: string } }) 
           </div>
         </div>
       </main>
-      <AuthModal open={isAuthModalOpen} onOpenChange={setAuthModalOpen} />
     </div>
   );
 }

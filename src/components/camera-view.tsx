@@ -2,6 +2,7 @@
 'use client';
 
 import { useState, useRef, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import { Camera, RefreshCcw, Check } from 'lucide-react';
 import { Button } from './ui/button';
 import { useToast } from '@/hooks/use-toast';
@@ -104,7 +105,7 @@ export function CameraView({ onPhotoTaken, isVisible }: CameraViewProps) {
     <div className="w-full space-y-4">
       <div className="relative w-full aspect-video rounded-md overflow-hidden bg-muted border">
         {capturedImage ? (
-          <Image src={capturedImage} alt="Captured photo" layout="fill" objectFit="contain" />
+          <Image src={capturedImage} alt="Captured photo" fill objectFit="contain" />
         ) : (
           <video ref={videoRef} className="w-full h-full object-cover" autoPlay muted playsInline />
         )}

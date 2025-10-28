@@ -1,6 +1,7 @@
+
 "use client";
 
-import React, { createContext, useContext, ReactNode } from "react";
+import React, { createContext, useContext, ReactNode, useState } from "react";
 import {
   signInWithPopup,
   GoogleAuthProvider,
@@ -16,6 +17,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   signIn: () => Promise<void>;
   signOut: () => Promise<void>;
+  openAuthModal: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -23,6 +25,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const auth = useFirebaseAuth();
   const { user, isUserLoading } = useUser();
+  const [isAuthModalOpen, setAuthModalOpen] = useState(false);
 
   const signIn = async () => {
     const provider = new GoogleAuthProvider();
@@ -32,6 +35,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return;
       }
       await signInWithPopup(auth, provider);
+      setAuthModalOpen(false);
     } catch (error) {
       console.error("Error signing in with Google", error);
     }
@@ -48,12 +52,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       console.error("Error signing out", error);
     }
   };
+  
+  const openAuthModal = () => setAuthModalOpen(true);
 
   const isAuthenticated = !isUserLoading && !!user;
 
   return (
-    <AuthContext.Provider value={{ user, isUserLoading, isAuthenticated, signIn, signOut }}>
+    <AuthContext.Provider value={{ user, isUserLoading, isAuthenticated, signIn, signOut, openAuthModal }}>
       {children}
+      <AuthModal open={isAuthModalOpen} onOpenChange={setAuthModalOpen} />
     </AuthContext.Provider>
   );
 }

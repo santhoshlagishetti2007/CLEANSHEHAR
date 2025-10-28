@@ -20,13 +20,11 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { ReportIssueDialog } from "./report-issue-dialog";
 import { Issue } from "@/lib/types";
-import { AuthModal } from "./auth-modal";
 
 export function AppHeader() {
   const { t } = useLanguage();
-  const { user, isUserLoading, signIn, signOut, isAuthenticated } = useAuth();
+  const { user, isUserLoading, signOut, isAuthenticated, openAuthModal } = useAuth();
   const [isReportDialogOpen, setReportDialogOpen] = useState(false);
-  const [isAuthModalOpen, setAuthModalOpen] = useState(false);
   
   const handleIssueReported = (newIssue: Issue) => {
     console.log("New issue reported from header:", newIssue);
@@ -34,7 +32,7 @@ export function AppHeader() {
 
   const handleReportClick = () => {
     if (!isAuthenticated) {
-      setAuthModalOpen(true);
+      openAuthModal();
     } else {
       setReportDialogOpen(true);
     }
@@ -108,7 +106,7 @@ export function AppHeader() {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Button onClick={() => signIn()} variant="ghost" size="sm">
+            <Button onClick={openAuthModal} variant="ghost" size="sm">
               <UserCircle className="mr-2 h-4 w-4" />
               {t("sign_in")}
             </Button>
@@ -120,7 +118,6 @@ export function AppHeader() {
         onOpenChange={setReportDialogOpen}
         onIssueReported={handleIssueReported}
       />
-      <AuthModal open={isAuthModalOpen} onOpenChange={setAuthModalOpen} />
     </header>
   );
 }
