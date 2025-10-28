@@ -11,7 +11,7 @@ export function LandingHero() {
   return (
     <section className="bg-card py-20 px-4">
       <div className="container mx-auto flex max-w-4xl flex-col items-center text-center">
-        <div className="scale-125">
+        <div className="scale-150">
           <Logo />
         </div>
         <p className="mt-4 text-sm text-muted-foreground">proudly 🇮🇳</p>

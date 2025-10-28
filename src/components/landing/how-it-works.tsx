@@ -31,7 +31,7 @@ export function HowItWorks() {
     <section className="py-20 px-4">
         <div className="container mx-auto max-w-6xl">
             <div className="text-center">
-                <h2 className="font-headline text-4xl font-bold">How Clearशहर Works</h2>
+                <h2 className="font-headline text-4xl font-bold">How <span className="text-primary">Clear</span><span className="text-accent">शहर</span> Works</h2>
                 <p className="mt-2 text-muted-foreground">A complete platform for civic engagement with multilingual support</p>
             </div>
             <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
