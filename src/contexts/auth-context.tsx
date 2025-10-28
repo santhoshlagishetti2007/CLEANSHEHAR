@@ -17,7 +17,7 @@ const sampleUser: User = {
   uid: 'sample-user-id',
   email: 'test.user@example.com',
   displayName: 'Test User',
-  photoURL: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxtYW4lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjE1NjA4MTN8MA&ixlib=rb-4.1.0&q=80&w=1080',
+  photoURL: 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=2070&auto=format&fit=crop',
   emailVerified: true,
   isAnonymous: false,
   metadata: {},
@@ -82,12 +82,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const isAuthenticated = !isUserLoading && !!user;
 
+  const value = { user, isUserLoading, isAuthenticated, signIn, signOut, openAuthModal };
+
   return (
-    <AuthContext.Provider value={{ user, isUserLoading, isAuthenticated, signIn, signOut, openAuthModal }}>
+    <AuthContext.Provider value={value}>
       {children}
-      <LanguageProvider>
-        <AuthModal open={isAuthModalOpen} onOpenChange={setAuthModalOpen} />
-      </LanguageProvider>
+      <AuthModal open={isAuthModalOpen} onOpenChange={setAuthModalOpen} />
     </AuthContext.Provider>
   );
 }
