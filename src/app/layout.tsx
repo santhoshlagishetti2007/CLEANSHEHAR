@@ -5,7 +5,6 @@ import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
 import { AppProviders } from '@/contexts/app-providers';
 import { FirebaseClientProvider } from '@/firebase/client-provider';
-import { FloatingSupportButton } from '@/components/floating-support-button';
 import { Home } from 'lucide-react';
 
 const fontPlayfair = Playfair_Display({
@@ -45,7 +44,6 @@ export default function RootLayout({
         <FirebaseClientProvider>
           <AppProviders>
             {children}
-            <FloatingSupportButton />
             <Toaster />
           </AppProviders>
         </FirebaseClientProvider>

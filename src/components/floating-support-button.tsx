@@ -12,17 +12,13 @@ export function FloatingSupportButton() {
   const [isChatOpen, setChatOpen] = useState(false);
 
   return (
-    <div className="fixed bottom-4 right-4 z-50">
-      <SupportChatDialog open={isChatOpen} onOpenChange={setChatOpen}>
-        <Button
-          onClick={() => setChatOpen(true)}
-          size="lg"
-          className="rounded-full shadow-lg"
-          aria-label={t('support')}
-        >
-          <MessageSquare className="h-6 w-6" />
-        </Button>
-      </SupportChatDialog>
-    </div>
+      <Button
+        onClick={() => setChatOpen(true)}
+        size="lg"
+        className="fixed bottom-4 right-4 rounded-full shadow-lg"
+        aria-label={t('support')}
+      >
+        <MessageSquare className="h-6 w-6" />
+      </Button>
   );
 }

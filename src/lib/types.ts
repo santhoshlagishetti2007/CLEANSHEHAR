@@ -31,3 +31,10 @@ export interface Issue {
   comments: Comment[];
   upvotes: number;
 }
+
+export interface Official {
+  id: string;
+  name: string;
+  department: string;
+  contactInformation: string;
+}

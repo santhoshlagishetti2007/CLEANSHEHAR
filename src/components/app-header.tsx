@@ -20,11 +20,13 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { ReportIssueDialog } from "./report-issue-dialog";
 import { Issue } from "@/lib/types";
+import { SupportDialog } from "./support-dialog";
 
 export function AppHeader() {
   const { t } = useLanguage();
   const { user, isUserLoading, signOut, isAuthenticated, openAuthModal } = useAuth();
   const [isReportDialogOpen, setReportDialogOpen] = useState(false);
+  const [isSupportDialogOpen, setSupportDialogOpen] = useState(false);
   
   const handleIssueReported = (newIssue: Issue) => {
     console.log("New issue reported from header:", newIssue);
@@ -62,6 +64,10 @@ export function AppHeader() {
                 {t('community_forum_title')}
               </Button>
             </Link>
+            <Button variant="ghost" size="sm" onClick={() => setSupportDialogOpen(true)}>
+              <LifeBuoy className="mr-2 h-4 w-4" />
+              {t('support')}
+            </Button>
         </nav>
         <div className="flex items-center gap-2">
           <LanguageSelector />
@@ -112,6 +118,7 @@ export function AppHeader() {
         onOpenChange={setReportDialogOpen}
         onIssueReported={handleIssueReported}
       />
+      <SupportDialog open={isSupportDialogOpen} onOpenChange={setSupportDialogOpen} />
     </header>
   );
 }

@@ -1,5 +1,5 @@
 
-import type { Issue, User, Comment } from "./types";
+import type { Issue, User, Comment, Official } from "./types";
 import placeholderImages from "./placeholder-images.json";
 
 const allImages = placeholderImages.placeholderImages;
@@ -161,3 +161,23 @@ export const departments = [
   "Traffic Police",
 ];
 
+export const officials: Official[] = [
+    {
+        id: "official-1",
+        name: "Rajesh Kumar",
+        department: "Public Works Department",
+        contactInformation: "rajesh.kumar.pwd@gov.in"
+    },
+    {
+        id: "official-2",
+        name: "Sunita Singh",
+        department: "Sanitation Department",
+        contactInformation: "s.singh.sanitation@gov.in"
+    },
+    {
+        id: "official-3",
+        name: "Amit Patel",
+        department: "Water Supply Board",
+        contactInformation: "apatel.wsb@gov.in"
+    }
+];
