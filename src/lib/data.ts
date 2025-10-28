@@ -115,9 +115,9 @@ export const issues: Issue[] = [
   },
   {
     id: "issue-3",
-    title: "Streetlight Out on Aurangzeb Road",
+    title: "Streetlight Out on Shambhajinagar Road",
     description:
-      "The streetlight at the intersection of Aurangzeb Road and Safdarjung Lane has been out for three nights. It's very dark and feels unsafe.",
+      "The streetlight at the intersection of Shambhajinagar Road and Safdarjung Lane has been out for three nights. It's very dark and feels unsafe.",
     imageUrl: issueImages.streetlight?.imageUrl || "",
     imageHint: issueImages.streetlight?.imageHint || "broken streetlight",
     department: "Electricity Department",
