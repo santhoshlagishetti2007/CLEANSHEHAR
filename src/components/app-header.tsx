@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { LifeBuoy, LogOut, UserCircle } from "lucide-react";
+import { LayoutDashboard, LifeBuoy, LogOut, UserCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/icons";
 import { LanguageSelector } from "./language-selector";
@@ -14,6 +14,8 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
@@ -27,7 +29,13 @@ export function AppHeader() {
         <Link href="/" className="flex items-center gap-2">
           <Logo />
         </Link>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
+           <Link href="/" passHref>
+              <Button variant="ghost" size="sm">
+                <LayoutDashboard className="mr-2 h-4 w-4" />
+                {t('dashboard_title')}
+              </Button>
+            </Link>
           <SupportChatDialog>
             <Button variant="ghost" size="sm">
               <LifeBuoy className="mr-2 h-4 w-4" />
@@ -48,6 +56,21 @@ export function AppHeader() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium leading-none">{user.displayName}</p>
+                    <p className="text-xs leading-none text-muted-foreground">
+                      {user.email}
+                    </p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <Link href="/profile" passHref>
+                  <DropdownMenuItem>
+                    <UserCircle className="mr-2 h-4 w-4" />
+                    <span>Profile</span>
+                  </DropdownMenuItem>
+                </Link>
                 <DropdownMenuItem onClick={() => signOut()}>
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>{t("sign_out")}</span>
