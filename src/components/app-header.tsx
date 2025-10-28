@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import { LayoutDashboard, LifeBuoy, LogOut, UserCircle } from "lucide-react";
+import { LayoutDashboard, LifeBuoy, LogOut, UserCircle, PenSquare, Map } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/icons";
 import { LanguageSelector } from "./language-selector";
@@ -18,10 +18,20 @@ import {
   DropdownMenuSeparator,
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { ReportIssueDialog } from "./report-issue-dialog";
+import { Issue } from "@/lib/types";
 
 export function AppHeader() {
   const { t } = useLanguage();
   const { user, isUserLoading, signIn, signOut } = useAuth();
+  const [isReportDialogOpen, setReportDialogOpen] = useState(false);
+  
+  // This is a dummy handler. We'll need to decide where to lift the state
+  // for the issues list if we want to refresh it from the header.
+  const handleIssueReported = (newIssue: Issue) => {
+    console.log("New issue reported from header:", newIssue);
+  };
+
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-card shadow-sm">
@@ -30,10 +40,20 @@ export function AppHeader() {
           <Logo />
         </Link>
         <div className="flex items-center gap-2">
-           <Link href="/" passHref>
-              <Button variant="ghost" size="sm">
-                <LayoutDashboard className="mr-2 h-4 w-4" />
-                {t('dashboard_title')}
+            <ReportIssueDialog
+              open={isReportDialogOpen}
+              onOpenChange={setReportDialogOpen}
+              onIssueReported={handleIssueReported}
+            >
+              <Button variant="ghost" size="sm" onClick={() => setReportDialogOpen(true)}>
+                <PenSquare className="mr-2 h-4 w-4" />
+                {t('report_new_issue')}
+              </Button>
+            </ReportIssueDialog>
+            <Link href="/issues" passHref>
+               <Button variant="ghost" size="sm">
+                <Map className="mr-2 h-4 w-4" />
+                {t('map_view')}
               </Button>
             </Link>
           <SupportChatDialog>
