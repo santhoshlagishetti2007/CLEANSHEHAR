@@ -37,10 +37,10 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { aiCategorizeIssue } from "@/ai/flows/ai-categorize-issue";
-import { Progress } from "./ui/progress";
 import { CameraView } from "./camera-view";
 import { LocationPicker } from "./location-picker";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { SteppedProgress } from "./ui/stepped-progress";
 
 
 interface ReportIssueDialogProps {
@@ -62,6 +62,8 @@ const formSchema = z.object({
 });
 
 type FormData = z.infer<typeof formSchema>;
+
+const steps = ["Media", "Department", "Location", "Details", "Review"];
 
 export function ReportIssueDialog({
   open,
@@ -168,7 +170,6 @@ export function ReportIssueDialog({
   };
 
   const mediaPreview = form.watch("mediaDataUri");
-  const progress = (currentStep / 5) * 100;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -188,7 +189,9 @@ export function ReportIssueDialog({
           </div>
         </DialogHeader>
 
-        <Progress value={progress} className="my-4" />
+        <div className="my-4 px-2">
+            <SteppedProgress currentStep={currentStep} steps={steps} />
+        </div>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
