@@ -51,7 +51,7 @@ export function HowItWorks() {
                         </CardHeader>
                         <CardContent>
                             <CardTitle className="mb-2 font-headline text-xl"><TranslatedText text={feature.title} /></CardTitle>
-                            <p className="text-sm text-muted-foreground"><TranslatedText text={feature.description} /></p>
+                            <div className="text-sm text-muted-foreground"><TranslatedText text={feature.description} /></div>
                         </CardContent>
                     </Card>
                 ))}
