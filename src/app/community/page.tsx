@@ -14,7 +14,6 @@ import { TranslatedText } from '@/components/translated-text';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { IssueCard } from '@/components/issue-card';
 import Link from 'next/link';
-import { ReportIssueDialog } from '@/components/report-issue-dialog';
 import { FileText, MessageSquare } from 'lucide-react';
 
 
@@ -56,7 +55,7 @@ export default function CommunityPage() {
     if (newPostContent.trim() && user) {
       const newPost = {
         id: `post-${Date.now()}`,
-        author: { id: user.uid, name: user.displayName || 'Anonymous', avatar: user.photoURL || '' },
+        author: { id: user.uid, name: user.displayName || t('anonymous'), avatar: user.photoURL || '' },
         timestamp: new Date().toISOString(),
         content: newPostContent,
         comments: [],

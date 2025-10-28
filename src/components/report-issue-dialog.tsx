@@ -148,7 +148,7 @@ export function ReportIssueDialog({
       imageHint: "newly reported issue",
       department: values.department,
       status: "Reported",
-      author: { id: user.uid, name: user.displayName || 'Anonymous', avatar: user.photoURL || '' },
+      author: { id: user.uid, name: user.displayName || t('anonymous'), avatar: user.photoURL || '' },
       timestamp: new Date().toISOString(),
       location: {
         address: "User-pinned location",
@@ -306,7 +306,7 @@ export function ReportIssueDialog({
                 </div>
                 <h3 className="font-bold text-lg">{form.getValues('title')}</h3>
                 <p className="text-sm text-muted-foreground">{form.getValues('description')}</p>
-                <p className="text-sm"><strong>{t('department')}:</strong> {form.getValues('department')}</p>
+                <p className="text-sm"><strong>{t('department')}:</strong> <TranslatedText text={form.getValues('department')} /></p>
                 <p className="text-sm"><strong>{t('review_location_prefix')}:</strong> Lat: {form.getValues('latitude').toFixed(4)}, Lng: {form.getValues('longitude').toFixed(4)}</p>
               </div>
             )}

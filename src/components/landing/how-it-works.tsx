@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useLanguage } from '@/hooks/use-language';
 import { FileText, MapPin, MessageCircle, Users } from 'lucide-react';
 import { Logo } from '../icons';
+import { TranslatedText } from '../translated-text';
 
 export function HowItWorks() {
   const { t } = useLanguage();
@@ -49,8 +50,8 @@ export function HowItWorks() {
                             </div>
                         </CardHeader>
                         <CardContent>
-                            <CardTitle className="mb-2 font-headline text-xl">{feature.title}</CardTitle>
-                            <p className="text-sm text-muted-foreground">{feature.description}</p>
+                            <CardTitle className="mb-2 font-headline text-xl"><TranslatedText text={feature.title} /></CardTitle>
+                            <p className="text-sm text-muted-foreground"><TranslatedText text={feature.description} /></p>
                         </CardContent>
                     </Card>
                 ))}

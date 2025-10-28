@@ -10,9 +10,9 @@ import {
 import { useAuth as useFirebaseAuth, useUser } from "@/firebase";
 import type { User } from 'firebase/auth';
 import { AuthModal } from "@/components/auth-modal";
-import { LanguageProvider } from "./language-context";
 import { ReportIssueDialog } from "@/components/report-issue-dialog";
 import { Issue } from "@/lib/types";
+import { useLanguage } from "@/hooks/use-language";
 
 // Sample user for testing purposes
 const sampleUser: User = {
@@ -49,6 +49,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const auth = useFirebaseAuth();
   const { user: firebaseUser, isUserLoading: firebaseUserLoading } = useUser();
+  const { t } = useLanguage();
   const [isAuthModalOpen, setAuthModalOpen] = useState(false);
   const [isReportIssueModalOpen, setReportIssueModalOpen] = useState(false);
 

@@ -83,7 +83,7 @@ export const translationsData = {
     hero_subtitle: "Report civic issues, connect with your community, and engage directly with government officials. Building cleaner, better cities together.",
     hero_button_report: "Report an Issue",
     hero_button_join: "Join Community",
-    how_it_works_title: "How It Works",
+    how_it_works_title: "How Clearशहर Works",
     how_it_works_subtitle: "A complete platform for civic engagement with multilingual support",
     feature_report_title: "Report Issues",
     feature_report_desc: "Upload photos/videos of civic problems, with AI-powered department distinction.",
@@ -170,7 +170,10 @@ export const translationsData = {
     retake_photo: "Retake",
     confirm_photo: "Confirm",
     camera_access_prompt: "Please allow camera access to use this feature.",
-    
+
+    // Other
+    anonymous: "Anonymous",
+    user: "User",
   },
   hi: {
     app_name: "Clearशहर",
@@ -237,7 +240,7 @@ export const translationsData = {
     hero_subtitle: "नागरिक मुद्दों की रिपोर्ट करें, अपने समुदाय से जुड़ें, और सीधे सरकारी अधिकारियों से जुड़ें। साथ मिलकर स्वच्छ, बेहतर शहर बनाना।",
     hero_button_report: "एक मुद्दा रिपोर्ट करें",
     hero_button_join: "समुदाय में शामिल हों",
-    how_it_works_title: "यह कैसे काम करता है",
+    how_it_works_title: "Clearशहर कैसे काम करता है",
     how_it_works_subtitle: "बहुभाषी समर्थन के साथ नागरिक जुड़ाव के लिए एक पूर्ण मंच",
     feature_report_title: "मुद्दों की रिपोर्ट करें",
     feature_report_desc: "एआई-संचालित विभाग भेद के साथ, नागरिक समस्याओं की तस्वीरें/वीडियो अपलोड करें।",
@@ -324,6 +327,10 @@ export const translationsData = {
     retake_photo: "फिर से लें",
     confirm_photo: "पुष्टि करें",
     camera_access_prompt: "इस सुविधा का उपयोग करने के लिए कृपया कैमरा एक्सेस की अनुमति दें।",
+
+    // Other
+    anonymous: "गुमनाम",
+    user: "उपयोगकर्ता",
   },
 };
 

@@ -59,7 +59,7 @@ export default function IssueDetailPage({ params }: { params: { id: string } }) 
       const comment: Comment = {
         id: `comment-${Date.now()}`,
         text: newComment,
-        author: { id: user.uid, name: user.displayName || 'Anonymous', avatar: user.photoURL || '' },
+        author: { id: user.uid, name: user.displayName || t('anonymous'), avatar: user.photoURL || '' },
         timestamp: new Date().toISOString(),
       };
       setComments(prev => [...prev, comment]);
@@ -125,7 +125,7 @@ export default function IssueDetailPage({ params }: { params: { id: string } }) 
                         <div className={`flex-1 rounded-lg border p-4 ${comment.isOfficialReply ? 'bg-secondary border-primary' : ''}`}>
                           <div className="mb-2 flex items-center justify-between">
                             <p className="font-semibold">
-                              {comment.author.name}
+                              <TranslatedText text={comment.author.name} />
                               {comment.isOfficialReply && (
                                 <Badge variant="default" className="ml-2">{t('official_reply')}</Badge>
                               )}
@@ -185,7 +185,7 @@ export default function IssueDetailPage({ params }: { params: { id: string } }) 
                          <AvatarImage src={issue.author.avatar} />
                          <AvatarFallback>{issue.author.name.charAt(0)}</AvatarFallback>
                        </Avatar>
-                       <span>{issue.author.name}</span>
+                       <span><TranslatedText text={issue.author.name} /></span>
                     </div>
                   </div>
                    <div className="flex items-start">
